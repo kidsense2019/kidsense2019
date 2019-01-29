@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bck">
+
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+
+
+
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:padding="10dp"
+        android:background="#1A000000"
+
+        android:id="@+id/login_form">
+
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:fontFamily="@font/allerta_stencil"
+            android:text="Email"
+            android:textColor="#D3D3D3"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/username_G"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/allerta_stencil"
+            android:text="Password"
+            android:textColor="#D3D3D3"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+
+        <AutoCompleteTextView
+            android:id="@+id/username_G"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/textView3"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:padding="10dip"
+            android:textColor="#D3D3D3"
+            android:background="@drawable/round_edit_text" />
+
+        <EditText
+            android:id="@+id/password_G"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView5"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:padding="10dip"
+            android:textColor="#D3D3D3"
+            android:background="@drawable/round_edit_text" />
+
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/signIN_G"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_form"
+        android:layout_alignEnd="@+id/login_form"
+        android:layout_marginTop="25dp"
+        android:textColor="#D3D3D3"
+        android:background="@drawable/round_button"
+        android:fontFamily="@font/allerta_stencil"
+        android:textStyle="bold"
+        android:text="Sign IN" />
+
+
+</RelativeLayout>

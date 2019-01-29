@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/grup1">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Home" />
+
+        <item
+            android:id="@+id/nav_camera"
+            android:icon="@drawable/ic_add_black_24dp"
+            android:title="Register Kid" />
+        <item
+            android:id="@+id/nav_watch_location"
+            android:icon="@drawable/ic_gps"
+            android:title="Watch Location" />
+
+    </group>
+    <item android:title="wasd">
+        <menu>
+            <group android:checkableBehavior="single"
+                android:id="@+id/grup2">
+                <item
+                    android:id="@+id/signUP"
+                    android:icon="@drawable/ic_menu_manage"
+                    android:title="Sign UP" />
+
+                <item
+                    android:id="@+id/signIN"
+                    android:icon="@drawable/ic_help_black_24dp"
+                    android:title="Sign IN" />
+            </group>
+
+        </menu>
+    </item>
+
+
+
+
+
+</menu>

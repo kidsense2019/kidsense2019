@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1003457040449",
+    "firebase_url": "https://kidsense2019-e9d1e.firebaseio.com",
+    "project_id": "kidsense2019-e9d1e",
+    "storage_bucket": "kidsense2019-e9d1e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1003457040449:android:c700a8279e54f7c5",
+        "android_client_info": {
+          "package_name": "com.example.kidsense2019"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1003457040449-lvceabqhehqbkms9ug47m4geh766vvpe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kidsense2019",
+            "certificate_hash": "445ce751ba21c63eba9ce76f49b796a7b0516693"
+          }
+        },
+        {
+          "client_id": "1003457040449-i2pkaq453sdjb3i2chevo8d56bitpva1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATrUQGtdJAbk3kQ6dZaM0uGJUFBNNYfQg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1003457040449-i2pkaq453sdjb3i2chevo8d56bitpva1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
