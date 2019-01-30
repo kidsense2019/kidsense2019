@@ -27,10 +27,6 @@ public class myFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(String s) {
         super.onNewToken(s);
         System.out.println("New Fb Token : " + s);
-        //Log.d("token", "Refreshed token: " + s);
-        Session session = new Session(getApplicationContext());
-        session.saveFCM(s);
-        System.out.println("save complete");
     }
 
     @Override
@@ -85,7 +81,7 @@ public class myFirebaseMessagingService extends FirebaseMessagingService {
                 inboxStyle.addLine("Lat : " + data.get("latitude"));
                 inboxStyle.addLine("Lng : " + data.get("longitude"));
                 inboxStyle.addLine("When : " + data.get("timestamp"));
-                inboxStyle.setSummaryText("Kidsense");
+                inboxStyle.setSummaryText(data.get("message"));
                 // notif builder
                 contentTitle = data.get("name");
                 contentText = data.get("timestamp");
