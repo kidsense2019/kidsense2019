@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
             Intent intent = new Intent(this, RegKid.class);
             startActivity(intent);
-            System.out.println("Fb Token : " + session.getfullName());
+            System.out.println("Fb Token : " + session.getToken());
         } else if (id == R.id.nav_watch_location) {
             Intent intent = new Intent(this, MapsActivity.class);
             intent.putExtra("content", "nav_watch_location");

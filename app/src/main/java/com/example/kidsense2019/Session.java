@@ -11,7 +11,7 @@ public class Session {
     private SharedPreferences.Editor editor;
     private Context ctx;
     private String username, password, email, status, token;
-    private String ip = "203.189.120.153";
+    private String ip = "203.189.123.200";
 
     public Session(Context ctx) {
         this.ctx = ctx;
@@ -64,7 +64,7 @@ public class Session {
         return prefs.getString("username", username);
     }
 
-    public String getfullName() {
+    public String getToken() {
 
         return prefs.getString("token", token);
     }

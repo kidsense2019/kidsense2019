@@ -29,12 +29,18 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.example.kidsense2019.MainActivity;
+import com.example.kidsense2019.PostDataTask;
 import com.example.kidsense2019.R;
+import com.example.kidsense2019.Session;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -62,7 +68,7 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
 
     // UI references.
     private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
+    private EditText mPasswordView, mUsername;
     private View mProgressView;
     private View mLoginFormView;
 
@@ -74,6 +80,8 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email_signUP_G);
         populateAutoComplete();
+        mUsername = findViewById(R.id.username_signUP_G);
+
 
         mPasswordView = (EditText) findViewById(R.id.password_signUP_G);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -189,9 +197,34 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(SignUpActivity.this, email, password);
-            mAuthTask.execute((Void) null);
+            Session session = new Session(getApplicationContext());
+            JSONObject dataToSend = new JSONObject();
+            try {
+                dataToSend.put("email", mEmailView.getText().toString());
+                dataToSend.put("password", mPasswordView);
+                dataToSend.put("name", mUsername.getText().toString());
+                dataToSend.put("fcmClientToken", session.getToken() );
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            PostDataTask postDataTask = new PostDataTask(this);
+            postDataTask.execute("http://203.189.123.200:3000/v1/guardian/signUp/",dataToSend);
+            postDataTask.getValue(new PostDataTask.setValue() {
+                @Override
+                public void update(String vData) {
+                    try {
+                        JSONObject message = new JSONObject(vData);
+                        Toast.makeText(SignUpActivity.this,message.getString("message"),Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+
+            //showProgress(true);
+            //mAuthTask = new UserLoginTask(SignUpActivity.this, email, password);
+            //mAuthTask.execute((Void) null);
         }
     }
 
