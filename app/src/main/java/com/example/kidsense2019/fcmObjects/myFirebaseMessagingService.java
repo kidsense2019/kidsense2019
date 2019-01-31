@@ -23,10 +23,16 @@ import java.util.Map;
 
 public class myFirebaseMessagingService extends FirebaseMessagingService {
 
+    private Session session;
+
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
         System.out.println("New Fb Token : " + s);
+
+        session = new Session(this);
+        session.saveFCM(s);
+
     }
 
     @Override

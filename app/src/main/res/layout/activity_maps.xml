@@ -14,22 +14,51 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/searchMap"
         tools:context=".location.MapsActivity" />
 
-    <RelativeLayout
-        android:layout_width="37dp"
-        android:layout_height="37dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/white_background_t">
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:scaleType="centerCrop"
-            android:id="@+id/place_info"
-            android:src="@drawable/ic_info"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"/>
-    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/searchMap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/EditMapLocation"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/search"
+            android:paddingLeft="20dp"
+            android:hint="Please set the boundary here"
+            android:drawableLeft="@drawable/ic_search"
+            android:ems="10"
+            android:drawablePadding="15dp"
+            android:inputType="text"
+            android:textSize="15dp" />
+
+    </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/white_background_t"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/searchMap">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:scaleType="centerCrop"
+                android:id="@+id/place_info"
+                android:src="@drawable/ic_info"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
+
 
 </RelativeLayout>
