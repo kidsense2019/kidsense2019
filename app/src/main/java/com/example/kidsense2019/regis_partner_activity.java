@@ -3,22 +3,16 @@ package com.example.kidsense2019;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.SparseBooleanArray;
-import android.view.ActionMode;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.kidsense2019.LoginLogoutRegistration.SignUpActivity;
+import com.example.kidsense2019.connection.PostDataTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;

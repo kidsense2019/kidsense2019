@@ -11,7 +11,7 @@ public class Session {
     private SharedPreferences.Editor editor;
     private Context ctx;
     private String username, password, email, status, token;
-    private String ip = "203.189.123.200";
+    private String ip = "http://203.189.123.200:3000";
 
     public Session(Context ctx) {
         this.ctx = ctx;

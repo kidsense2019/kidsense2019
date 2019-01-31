@@ -19,8 +19,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kidsense2019.connection.GetDataTask;
 import com.example.kidsense2019.MainActivity;
 import com.example.kidsense2019.R;
+import com.example.kidsense2019.Session;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -35,6 +37,10 @@ import java.util.Locale;
 
 import com.example.kidsense2019.fcmObjects.CustomInfoWindowAdapter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -44,6 +50,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Marker mMarker;
     private Geocoder geocoder;
     private List<Address> addresses;
+    private Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +106,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mInfo = (ImageView)findViewById(R.id.place_info);
 
+        session = new Session(MapsActivity.this);
     }
 
 
@@ -197,17 +205,28 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
             case R.id.nav_refresh:
 
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MapsActivity.this, android.R.layout.select_dialog_singlechoice);
-                arrayAdapter.add("Hardik");
-                arrayAdapter.add("Archit");
-                arrayAdapter.add("Jignesh");
-                arrayAdapter.add("Umang");
-                arrayAdapter.add("Gatti");
-                arrayAdapter.add("Hardik");
-                arrayAdapter.add("Archit");
-                arrayAdapter.add("Jignesh");
-                arrayAdapter.add("Umang");
-                arrayAdapter.add("Gatti");
+                final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MapsActivity.this, android.R.layout.select_dialog_item);
+
+                GetDataTask get = new GetDataTask(MapsActivity.this);
+                get.execute(session.getIP() + "/v1/kid/user/2");
+                get.getValue(new GetDataTask.setValue() {
+                    @Override
+                    public void update(String vData) {
+
+                        try {
+                            JSONObject message = new JSONObject(vData);
+                            JSONArray kids = message.getJSONArray("message");
+
+                            for (int i = 0; i < kids.length(); i++) {
+                                JSONObject kid = kids.getJSONObject(i);
+                                arrayAdapter.add(kid.getString("name"));
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
 
                 kidList(arrayAdapter);
 

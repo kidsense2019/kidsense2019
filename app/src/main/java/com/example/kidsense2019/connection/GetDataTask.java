@@ -1,4 +1,4 @@
-package com.example.kidsense2019;
+package com.example.kidsense2019.connection;
 
 import android.app.Activity;
 import android.app.ProgressDialog;

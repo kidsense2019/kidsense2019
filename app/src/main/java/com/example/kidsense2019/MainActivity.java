@@ -26,7 +26,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        session =new Session(getApplicationContext());
+
+        session =new Session(MainActivity.this);
+        session.saveIP();
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -86,7 +88,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_register_kid) {
             // Handle the camera action
             Intent intent = new Intent(this, RegKid.class);
             startActivity(intent);
@@ -97,15 +99,11 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
             finish();
 
-        } else if (id == R.id.signIN) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.signUP) {
-            Intent intent = new Intent(this, SignUpActivity.class);
-            startActivity(intent);
         } else if (id == R.id.nav_partner) {
             Intent intent = new Intent(this, regis_partner_activity.class);
             startActivity(intent);
+        } else if (id == R.id.signOut) {
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
