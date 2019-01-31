@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.kidsense2019.connection.PostDataTask;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,6 +30,8 @@ public class regis_partner_activity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     ArrayList<String> list;
     ArrayList<String> list_selected;
+    ArrayList<String> list_name;
+    ArrayList<String> id;
     String append="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +40,7 @@ public class regis_partner_activity extends AppCompatActivity {
 
         listView = findViewById(R.id.list_kid);
         editText = findViewById(R.id.guardian_emailS_partner);
-
+        getKid();
         init();
 
 
@@ -76,12 +79,15 @@ public class regis_partner_activity extends AppCompatActivity {
 
     private void init() {
         list = new ArrayList<>();
+        list_name = new ArrayList<>();
+        id = new ArrayList<>();
 
         list.add("ian");
         list.add("ren");
         list.add("kez");
 
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_activated_1,list);
+        //adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_activated_1,list);
+        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_activated_1,list_name);
         list_selected = new ArrayList<>();
         listView.setAdapter(adapter);
         listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
@@ -115,5 +121,29 @@ public class regis_partner_activity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void getKid(){
+
+        GetDataTask get = new GetDataTask(regis_partner_activity.this);
+        // "2" adalah guardian ID
+        get.execute("http://203.189.123.200:3000/v1/kid/admin/2");
+        get.getValue(new GetDataTask.setValue() {
+            @Override
+            public void update(String vData) {
+                try {
+                    JSONObject jsonObject = new JSONObject(vData);
+                    JSONArray jsonArray =jsonObject.getJSONArray("message");
+
+                    for(int i = 0; i<jsonArray.length();i++){
+                        JSONObject JO = jsonArray.getJSONObject(i);
+                        list_name.add(JO.getString("name"));
+                        id.add(JO.getString("kidID"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
