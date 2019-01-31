@@ -16,9 +16,14 @@
             android:icon="@drawable/ic_add_black_24dp"
             android:title="Register Kid" />
         <item
-            android:id="@+id/nav_watch_location"
-            android:icon="@drawable/ic_gps"
-            android:title="Watch Location" />
+        android:id="@+id/nav_watch_location"
+        android:icon="@drawable/ic_gps"
+        android:title="Watch Location" />
+
+        <item
+            android:id="@+id/nav_partner"
+            android:icon="@drawable/ic_add_black_24dp"
+            android:title="Partner" />
 
     </group>
     <item android:title="wasd">

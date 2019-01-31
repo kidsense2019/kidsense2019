@@ -103,6 +103,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.signUP) {
             Intent intent = new Intent(this, SignUpActivity.class);
             startActivity(intent);
+        } else if (id == R.id.nav_partner) {
+            Intent intent = new Intent(this, regis_partner_activity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

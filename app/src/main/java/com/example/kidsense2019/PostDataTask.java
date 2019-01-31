@@ -104,7 +104,13 @@ public class PostDataTask extends AsyncTask<Object, Void, String> {
             bufferedWriter.flush();
 
             //Read data response from server
-            InputStream inputStream = urlConnection.getInputStream();
+            InputStream inputStream;
+            if(urlConnection.getResponseCode()<HttpURLConnection.HTTP_BAD_REQUEST){
+                inputStream = urlConnection.getInputStream();
+            }else {
+                inputStream = urlConnection.getErrorStream();
+            }
+
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
             while ((line = bufferedReader.readLine()) != null) {

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbarAlwaysDrawVerticalTrack="true">
+
+
+    <LinearLayout
+        android:id="@+id/relativeLayout2"
+        android:orientation="vertical"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:background="#1D000000"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Guardian Email"
+            android:textColor="#D3D3D3"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:fontFamily="@font/allerta_stencil"/>
+
+        <EditText
+            android:id="@+id/guardian_emailS_partner"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/round_edit_text"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:paddingLeft="15dip"/>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Kid"
+            android:textColor="#D3D3D3"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:fontFamily="@font/allerta_stencil"/>
+
+        <ListView
+            android:id="@+id/list_kid"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"></ListView>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/signUP_partnership"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/round_button"
+        android:text="Sign Up"
+        android:textColor="#D3D3D3"
+        android:fontFamily="@font/allerta_stencil"
+        android:textStyle="bold"/>
+
+
+</RelativeLayout>
