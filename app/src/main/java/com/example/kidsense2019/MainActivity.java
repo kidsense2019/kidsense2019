@@ -11,9 +11,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.kidsense2019.LoginLogoutRegistration.LoginActivity;
-import com.example.kidsense2019.LoginLogoutRegistration.RegKid;
-import com.example.kidsense2019.LoginLogoutRegistration.SignUpActivity;
+
+import com.example.kidsense2019.LoginLogoutRegistration.Guardian_SignIn;
+import com.example.kidsense2019.LoginLogoutRegistration.f_kid_register;
+import com.example.kidsense2019.LoginLogoutRegistration.f_partnership;
 import com.example.kidsense2019.location.MapsActivity;
 
 public class MainActivity extends AppCompatActivity
@@ -27,8 +28,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        session =new Session(MainActivity.this);
-        session.saveIP();
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -38,7 +37,24 @@ public class MainActivity extends AppCompatActivity
 //            }
 //        });
 
-        System.out.println("Hello David");
+        session =new Session(MainActivity.this);
+        session.saveIP();
+
+        if(!session.loggedin()){
+            logout();
+        }
+        else {
+            if (savedInstanceState == null) {
+                setTitle("Home");
+
+                f_home F_home = f_home.newInstance("param1", "param2");
+                android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+                android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
+                transaction.replace(R.id.layout_for_fragment, F_home,
+                        F_home.getTag());
+                transaction.commit();
+            }
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -48,6 +64,13 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public void logout() {
+        session.setLoggedIn(false);
+        session.saveGuardianId(0);
+        startActivity(new Intent(MainActivity.this, Guardian_SignIn.class));
+        finish();
     }
 
     @Override
@@ -70,7 +93,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
+        // automatically handle clicks on the f_home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
@@ -88,11 +111,22 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_register_kid) {
-            // Handle the camera action
-            Intent intent = new Intent(this, RegKid.class);
-            startActivity(intent);
-            System.out.println("Fb Token : " + session.getToken());
+        if (id == R.id.nav_home) {
+            f_home F_home = f_home.newInstance("param1", "param2");
+            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+            android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.layout_for_fragment, F_home,
+                    F_home.getTag());
+            transaction.commit();
+        }
+        else if (id == R.id.nav_register_kid) {
+            f_kid_register F_kid_register = f_kid_register.newInstance("Test", "Test");
+            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+            android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.layout_for_fragment, F_kid_register,
+                    F_kid_register.getTag());
+            transaction.commit();
+
         } else if (id == R.id.nav_watch_location) {
             Intent intent = new Intent(this, MapsActivity.class);
             intent.putExtra("content", "nav_watch_location");
@@ -100,10 +134,15 @@ public class MainActivity extends AppCompatActivity
             finish();
 
         } else if (id == R.id.nav_partner) {
-            Intent intent = new Intent(this, regis_partner_activity.class);
-            startActivity(intent);
-        } else if (id == R.id.signOut) {
 
+            f_partnership F_partnership = f_partnership.newInstance("param1", "param2");
+            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+            android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.layout_for_fragment, F_partnership,
+                    F_partnership.getTag());
+            transaction.commit();
+        } else if (id == R.id.signOut) {
+            logout();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

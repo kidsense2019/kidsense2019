@@ -9,4 +9,5 @@
     tools:showIn="@layout/app_bar_main"
     android:id="@+id/layout_for_fragment">
 
+
 </android.support.constraint.ConstraintLayout>

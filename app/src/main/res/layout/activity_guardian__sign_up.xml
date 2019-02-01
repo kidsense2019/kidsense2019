@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginLogoutRegistration.Guardian_SignUp">
+
+    <ScrollView
+        android:id="@+id/relativeLayout2"
+        android:layout_marginTop="50dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <RelativeLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="#1D000000"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="Email"
+                android:textColor="#D3D3D3"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:fontFamily="@font/allerta_stencil"/>
+
+            <EditText
+                android:id="@+id/email_signUp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView1"
+                android:background="@drawable/round_edit_text"
+                android:padding="10dip"
+                android:textColor="#000000"
+                android:inputType="textPersonName"
+                />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/email_signUp"
+                android:layout_marginTop="10dp"
+                android:text="Name"
+                android:textColor="#D3D3D3"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:fontFamily="@font/allerta_stencil"/>
+
+            <EditText
+                android:id="@+id/name_signUp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView2"
+                android:background="@drawable/round_edit_text"
+                android:padding="10dip"
+                android:textColor="#000000"
+                android:inputType="textEmailAddress" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/name_signUp"
+                android:layout_marginTop="10dp"
+                android:text="Password"
+                android:textColor="#D3D3D3"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:fontFamily="@font/allerta_stencil"/>
+
+            <EditText
+                android:id="@+id/password_signUp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView3"
+                android:background="@drawable/round_edit_text"
+                android:padding="10dip"
+                android:textColor="#000000"
+                android:inputType="textPassword" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/password_signUp"
+                android:layout_marginTop="10dp"
+                android:text="Confirm Password"
+                android:textColor="#D3D3D3"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:fontFamily="@font/allerta_stencil"/>
+
+            <EditText
+                android:id="@+id/conf_password_signUp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView4"
+                android:background="@drawable/round_edit_text"
+                android:padding="10dip"
+                android:textColor="#000000"
+                android:inputType="textPassword" />
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/guardian_signUp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/round_button"
+        android:text="Sign Up"
+        android:textColor="#D3D3D3"
+        android:fontFamily="@font/allerta_stencil"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/signIn_page"
+        android:layout_below="@+id/guardian_signUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Already Have an Account?"
+        android:layout_marginTop = "35dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp"
+        android:textColor="#ffffff"
+        android:textStyle="italic" />
+
+</RelativeLayout>

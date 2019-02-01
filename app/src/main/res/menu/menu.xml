@@ -5,9 +5,19 @@
         <item
             android:id="@+id/nav_refresh"
             android:title="Where is my kids?" />
-        <item
-            android:id="@+id/nav_periodic"
-            android:title="Periodic Record"/>
+    </group>
+
+    <group>
+        <item android:title="Periodic Record">
+            <menu>
+                <item
+                    android:id="@+id/nav_periodic_set"
+                    android:title="Set Record"/>
+                <item
+                    android:id="@+id/nav_periodic_unset"
+                    android:title="Unset Record"/>
+            </menu>
+        </item>
     </group>
 
     <group>

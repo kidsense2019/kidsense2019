@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Kidsense 2019</string>
+    <string name="app_name">Kidsense</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -31,4 +31,9 @@
     <string name="title_activity_sign_up">Sign up</string>
     <string name="title_activity_maps_kidsense">Map</string>
     <string name="title_activity_mapskidsense">Map</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_guardian__sign_up">Guardian_SignUp</string>
+    <string name="title_activity_guardian__sign_in">Guardian_SignIn</string>
 </resources>

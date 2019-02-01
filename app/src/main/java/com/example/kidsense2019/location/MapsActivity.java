@@ -23,6 +23,7 @@ import com.example.kidsense2019.connection.GetDataTask;
 import com.example.kidsense2019.MainActivity;
 import com.example.kidsense2019.R;
 import com.example.kidsense2019.Session;
+import com.example.kidsense2019.connection.PostDataTask;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -204,32 +205,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
                 break;
             case R.id.nav_refresh:
-
-                final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MapsActivity.this, android.R.layout.select_dialog_item);
-
-                GetDataTask get = new GetDataTask(MapsActivity.this);
-                get.execute(session.getIP() + "/v1/kid/user/2");
-                get.getValue(new GetDataTask.setValue() {
-                    @Override
-                    public void update(String vData) {
-
-                        try {
-                            JSONObject message = new JSONObject(vData);
-                            JSONArray kids = message.getJSONArray("message");
-
-                            for (int i = 0; i < kids.length(); i++) {
-                                JSONObject kid = kids.getJSONObject(i);
-                                arrayAdapter.add(kid.getString("name"));
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-
-                kidList(arrayAdapter);
-
+                getKid(session.getIP() + "/v1/kid/user/" + session.getGuardianId(),
+                        "refresh", session.getIP() + "/v1/sensorLocation/request");
+                break;
+            case R.id.nav_periodic_set:
+                getKid(session.getIP() + "/v1/kid/admin/" + session.getGuardianId(),
+                        "set", session.getIP() + "/v1/sensorLocation/periodically/state");
+                break;
+            case R.id.nav_periodic_unset:
+                getKid(session.getIP() + "/v1/kid/admin/" + session.getGuardianId(),
+                        "unset", session.getIP() + "/v1/sensorLocation/periodically/state");
                 break;
             default:
                 break;
@@ -238,7 +223,39 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         return super.onOptionsItemSelected(item);
     }
 
-    public void kidList(final ArrayAdapter<String> arrayAdapter) {
+    public void getKid(String UrlGet, final String nav_message, final String urlPost) {
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MapsActivity.this, android.R.layout.select_dialog_item);
+        GetDataTask get = new GetDataTask(MapsActivity.this);
+        get.execute(UrlGet);
+        get.getValue(new GetDataTask.setValue() {
+            @Override
+            public void update(String vData) {
+
+                try {
+                    JSONObject message = new JSONObject(vData);
+
+                    try {
+                        JSONArray kids = message.getJSONArray("message");
+                        for (int i = 0; i < kids.length(); i++) {
+                            JSONObject kid = kids.getJSONObject(i);
+                            arrayAdapter.add(kid.getString("nickName"));
+                        }
+                        kidList(arrayAdapter, nav_message, urlPost); // post data
+                    }
+                    catch (JSONException e1) {
+                        arrayAdapter.add(message.getString("message"));
+                        errorMessage(arrayAdapter);
+                        e1.printStackTrace();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void kidList(final ArrayAdapter<String> arrayAdapter, final String message , final String url) {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(MapsActivity.this);
         builderSingle.setIcon(R.drawable.ic_kid);
         builderSingle.setTitle("Select One Name:-");
@@ -253,17 +270,82 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String strName = arrayAdapter.getItem(which);
+                final String strName = arrayAdapter.getItem(which);
                 AlertDialog.Builder builderInner = new AlertDialog.Builder(MapsActivity.this);
                 builderInner.setMessage(strName);
-                builderInner.setTitle("Your Selected Item is");
+                builderInner.setTitle("Your Selected Kid is");
                 builderInner.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog,int which) {
+
+                        PostDataTask post = new PostDataTask(MapsActivity.this);
+                        JSONObject dataToSend = new JSONObject();
+
+                        if (message.equals("refresh")) {
+                            try {
+                                dataToSend.put("nickName", strName);
+                                dataToSend.put("guardianId", session.getGuardianId());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else if (message.equals("set")) {
+                            try {
+                                dataToSend.put("nickName", strName);
+                                dataToSend.put("state", "set");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else if (message.equals("unset")) {
+                            try {
+                                dataToSend.put("nickName", strName);
+                                dataToSend.put("state", "unset");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        post.execute(url,dataToSend);
+                        post.getValue(new PostDataTask.setValue() {
+                            @Override
+                            public void update(String vData) {
+                                try {
+                                    System.out.println("reply: "+vData);
+                                    JSONObject message = new JSONObject(vData);
+                                    Toast.makeText(MapsActivity.this,message.getString("message"),Toast.LENGTH_SHORT).show();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
+                        System.out.println("Check This Value David : " + strName + " " + message);
                         dialog.dismiss();
                     }
                 });
                 builderInner.show();
+            }
+        });
+        builderSingle.show();
+    }
+
+    public void errorMessage(final ArrayAdapter<String> arrayAdapter) {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(MapsActivity.this);
+        builderSingle.setIcon(R.drawable.ic_kid);
+        builderSingle.setTitle("Oops...");
+
+        builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
             }
         });
         builderSingle.show();

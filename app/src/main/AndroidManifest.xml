@@ -24,8 +24,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".regis_partner_activity"></activity>
-        <activity android:name=".LoginLogoutRegistration.RegKid" />
+        <activity
+            android:name=".LoginLogoutRegistration.Guardian_SignIn"
+            android:label="@string/title_activity_guardian__sign_in">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LoginLogoutRegistration.Guardian_SignUp"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -50,15 +63,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".LoginLogoutRegistration.LoginActivity" />
-        <activity android:name=".LoginLogoutRegistration.SignUpActivity" />
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service android:name=".fcmObjects.myFirebaseMessagingService">
             <intent-filter>

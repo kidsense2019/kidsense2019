@@ -10,7 +10,8 @@ public class Session {
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
     private Context ctx;
-    private String username, password, email, status, token;
+    private String token;
+    private int guardianId;
     private String ip = "http://203.189.123.200:3000";
 
     public Session(Context ctx) {
@@ -36,52 +37,19 @@ public class Session {
     }
 
 
-    public void saveUsername(String username) {
-        this.username = username;
-        editor.putString("username", username);
+    public void saveGuardianId(int guardianId) {
+        this.guardianId = guardianId;
+        editor.putInt("guardianId", guardianId);
         editor.commit();
     }
 
-    public void saveEmail(String email) {
-        this.email = email;
-        editor.putString("email", email);
-        editor.commit();
+    public int getGuardianId() {
+        return prefs.getInt("guardianId", guardianId);
     }
 
-    public void savePassword(String password) {
-        this.password = password;
-        editor.putString("password", password);
-        editor.commit();
-    }
-
-    public void saveStatus(String status) {
-        this.status = status;
-        editor.putString("status", status);
-        editor.commit();
-    }
-
-    public String getsaveUsername() {
-        return prefs.getString("username", username);
-    }
-
-    public String getToken() {
+    public String getFCM() {
 
         return prefs.getString("token", token);
-    }
-
-    public String getsaveEmail() {
-
-        return prefs.getString("email", email);
-    }
-
-    public String getsavePassword() {
-
-        return prefs.getString("password", password);
-    }
-
-    public String getsaveStatus() {
-
-        return prefs.getString("status", status);
     }
 
     public String getIP() {
