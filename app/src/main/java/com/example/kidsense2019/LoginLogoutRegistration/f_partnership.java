@@ -1,6 +1,8 @@
 package com.example.kidsense2019.LoginLogoutRegistration;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -19,12 +21,14 @@ import com.example.kidsense2019.R;
 import com.example.kidsense2019.Session;
 import com.example.kidsense2019.connection.GetDataTask;
 import com.example.kidsense2019.connection.PostDataTask;
+import com.example.kidsense2019.location.MapsActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 
 /**
@@ -43,7 +47,7 @@ public class f_partnership extends Fragment {
     private String mParam2;
 
     ListView listView;
-    EditText editText;
+    EditText assignGuardianEmail;
     View view;
 
     Toolbar toolbar;
@@ -52,7 +56,7 @@ public class f_partnership extends Fragment {
     ArrayList<String> list_name;
     String append="";
     Session session;
-
+    Button assignPartnership;
 
     public f_partnership() {
         // Required empty public constructor
@@ -91,11 +95,11 @@ public class f_partnership extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_f_partnership, container, false);
 
-        listView = view.findViewById(R.id.list_kid);
-        editText = view.findViewById(R.id.guardian_emailS_partner);
-
-        list_name = new ArrayList<>();
         session = new Session(view.getContext());
+        list_name = new ArrayList<>();
+
+        listView = view.findViewById(R.id.list_kid);
+        assignGuardianEmail = view.findViewById(R.id.assign_guardian_email);
 
         getKid(session.getIP() + "/v1/kid/admin/" + session.getGuardianId());
 
@@ -108,19 +112,18 @@ public class f_partnership extends Fragment {
                 }else{
                     list_selected.add(selected);
                 }
-                //Toast.makeText(regis_partner_activity.this,String.valueOf(list_selected.size()) ,Toast.LENGTH_SHORT).show();
                 append="";
             }
         });
-        Button b = view.findViewById(R.id.signUP_partnership);
-        b.setOnClickListener(new View.OnClickListener() {
+        assignPartnership = view.findViewById(R.id.assign_partnership);
+        assignPartnership.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //pushToServer();
-                System.out.println("Check David Emma : ");
-                for(int i = 0; i<list_selected.size();i++) {
-                    System.out.println("name : " + list_selected.get(i));
-                    System.out.println("number : " +  i);
+                String guardianEmail = assignGuardianEmail.getText().toString();
+                boolean valid = isValid(guardianEmail);
+
+                if (valid) {
+                    pushToServer(guardianEmail, session.getIP() + "/v1/partnership/register");
                 }
             }
         });
@@ -137,19 +140,19 @@ public class f_partnership extends Fragment {
         listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
     }
 
-    private void pushToServer() {
+    private void pushToServer(String guardianEmail, String url) {
         for(int i = 0; i<list_selected.size();i++){
             PostDataTask post = new PostDataTask(view.getContext());
             JSONObject dataToSend = new JSONObject();
 
             try {
-                dataToSend.put("assignee", 1);
-                dataToSend.put("guardian", editText.getText().toString());
-                dataToSend.put("nickname", list_selected.get(i));
+                dataToSend.put("assignee", session.getGuardianId());
+                dataToSend.put("guardian", guardianEmail);
+                dataToSend.put("nickName", list_selected.get(i));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            post.execute("http://203.189.123.200:3000/v1/partnership/register",dataToSend);
+            post.execute(url ,dataToSend);
             post.getValue(new PostDataTask.setValue() {
                 @Override
                 public void update(String vData) {
@@ -177,20 +180,58 @@ public class f_partnership extends Fragment {
             public void update(String vData) {
                 try {
                     JSONObject jsonObject = new JSONObject(vData);
-                    JSONArray jsonArray =jsonObject.getJSONArray("message");
 
-                    for(int i = 0; i<jsonArray.length();i++){
-                        JSONObject JO = jsonArray.getJSONObject(i);
-                        list_name.add(JO.getString("name"));
+                    try {
+                        JSONArray kids = jsonObject.getJSONArray("message");
+                        for(int i = 0; i<kids.length();i++){
+                            JSONObject JO = kids.getJSONObject(i);
+                            list_name.add(JO.getString("nickName"));
+                        }
                     }
+                    catch (JSONException e1) {
+                        errorMessage(jsonObject.getString("message"));
+                        assignPartnership.setEnabled(false);
+                        assignGuardianEmail.setEnabled(false);
+                        e1.printStackTrace();
+                    }
+
                     init();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
+    }
 
+    public void errorMessage(String message) {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(view.getContext());
+        builderSingle.setIcon(R.drawable.ic_kid);
+        builderSingle.setTitle("We are sorry");
+        builderSingle.setMessage(message);
 
+        builderSingle.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked OK button
+                dialog.dismiss();
+            }
+        });
+
+        builderSingle.show();
+    }
+
+    public boolean isValid(String emailStr) {
+
+        boolean flag=true;
+
+        if (!isEmailValid(emailStr )){
+            assignGuardianEmail.setError("Please provide a valid email");
+            flag=false;
+        }
+        return flag;
+    }
+
+    boolean isEmailValid(CharSequence email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
 }

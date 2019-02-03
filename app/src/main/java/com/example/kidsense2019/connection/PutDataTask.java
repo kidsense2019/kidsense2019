@@ -8,14 +8,17 @@ import android.os.AsyncTask;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class PutDataTask extends AsyncTask<String, Void, String>{
+public class PutDataTask extends AsyncTask<Object, Void, String> {
 
     ProgressDialog progressDialog;
     Context ctx;
@@ -37,25 +40,27 @@ public class PutDataTask extends AsyncTask<String, Void, String>{
     }
 
     @Override
+    protected String doInBackground(Object... obj) {
+        try {
+            String url = (String) obj[0];
+            JSONObject json = (JSONObject) obj[1];
+            return putData(url,json);
+        } catch (IOException ex) {
+            return "Network error !";
+        } catch (JSONException e) {
+            return "Data invalid !";
+        }
+    }
+
+    @Override
     protected void onPreExecute() {
         super.onPreExecute();
 
         progressDialog = new ProgressDialog(activity);
-        progressDialog.setMessage("Updating data...");
+        progressDialog.setMessage("Sending data...");
         progressDialog.show();
     }
 
-    @Override
-    protected String doInBackground(String... params) {
-
-        try {
-            return putData(params[0], params[1], params[2], params[3], params[4]);
-        } catch (IOException ex) {
-            return "Network error !";
-        } catch (JSONException ex) {
-            return "Data invalid !";
-        }
-    }
 
     @Override
     protected void onPostExecute(String result) {
@@ -70,19 +75,15 @@ public class PutDataTask extends AsyncTask<String, Void, String>{
         }
     }
 
-    private String putData(String urlPath, String fbname, String content, String likes,
-                           String comments) throws IOException, JSONException {
+    private String putData(String urlPath,JSONObject dataToSend) throws IOException, JSONException {
 
-        String result = null;
+        StringBuilder result = new StringBuilder();
+        BufferedReader bufferedReader = null;
         BufferedWriter bufferedWriter = null;
 
         try {
-            //Create data to update
-            JSONObject dataToSend = new JSONObject();
-            dataToSend.put("fbname", fbname);
-            dataToSend.put("content", content);
-            dataToSend.put("likes", likes);
-            dataToSend.put("comments", comments);
+            //Create data to send to server
+
 
             //Initialize and config request, then connect to server
             URL url = new URL(urlPath);
@@ -100,18 +101,29 @@ public class PutDataTask extends AsyncTask<String, Void, String>{
             bufferedWriter.write(dataToSend.toString());
             bufferedWriter.flush();
 
-            if (urlConnection.getResponseCode() == 200) {
-                return "Update successfully !";
-            } else {
-                return "Update failed !";
+            //Read data response from server
+            InputStream inputStream;
+            if(urlConnection.getResponseCode()<HttpURLConnection.HTTP_BAD_REQUEST){
+                inputStream = urlConnection.getInputStream();
+            }else {
+                inputStream = urlConnection.getErrorStream();
+            }
+
+            bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result.append(line).append("\n");
             }
         } finally {
             // close resource
+            if (bufferedReader != null) {
+                bufferedReader.close();
+            }
             if (bufferedWriter != null) {
                 bufferedWriter.close();
             }
         }
 
+        return result.toString();
     }
-
 }

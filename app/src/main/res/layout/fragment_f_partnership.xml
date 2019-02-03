@@ -31,11 +31,11 @@
             android:fontFamily="@font/allerta_stencil"/>
 
         <EditText
-            android:id="@+id/guardian_emailS_partner"
+            android:id="@+id/assign_guardian_email"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:background="@drawable/round_edit_text"
-            android:inputType="textPersonName"
+            android:inputType="textEmailAddress"
             android:textColor="#000000"
             android:ems="10"
             android:layout_marginTop="10dp"
@@ -62,7 +62,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/signUP_partnership"
+        android:id="@+id/assign_partnership"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/relativeLayout2"

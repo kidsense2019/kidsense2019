@@ -3,11 +3,9 @@ package com.example.kidsense2019.LoginLogoutRegistration;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +13,7 @@ import com.example.kidsense2019.MainActivity;
 import com.example.kidsense2019.R;
 import com.example.kidsense2019.Session;
 import com.example.kidsense2019.connection.PostDataTask;
-import com.example.kidsense2019.location.MapsActivity;
+import com.example.kidsense2019.connection.PutDataTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -87,12 +85,11 @@ public class Guardian_SignIn extends Activity {
                             String messageStr = message.getString("message");
 
                             if (messageStr.equals("Auth successful")) {
-                                session.setLoggedIn(true);
                                 session.saveGuardianId(message.getInt("guardianId"));
+                                session.saveGuardianEmail(message.getString("email"));
+                                session.saveGuardianName(message.getString("name"));
 
-                                Intent intent = new Intent(Guardian_SignIn.this, MainActivity.class);
-                                startActivity(intent);
-                                finish();
+                                updateFCMToken();
                             }
                             else {
                                 Toast.makeText(Guardian_SignIn.this, messageStr ,Toast.LENGTH_LONG).show();
@@ -114,6 +111,43 @@ public class Guardian_SignIn extends Activity {
             finish();
         }
     };
+
+    public void updateFCMToken() {
+
+        PutDataTask put = new PutDataTask(Guardian_SignIn.this);
+        JSONObject dataToSend = new JSONObject();
+
+        try {
+            dataToSend.put("fcmClientToken", session.getFCM());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        put.execute(session.getIP() + "/v1/guardian/" + session.getGuardianId() ,dataToSend);
+        put.getValue(new PutDataTask.setValue() {
+            @Override
+            public void update(String vData) {
+
+                try {
+                    JSONObject message = new JSONObject(vData);
+                    String messageStr = message.getString("message");
+
+                    if (messageStr.equals("FCM client token has been successfully updated")) {
+
+                        session.setLoggedIn(true);
+                        Intent intent = new Intent(Guardian_SignIn.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else {
+                        Toast.makeText(Guardian_SignIn.this, messageStr ,Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
 
     boolean isEmailValid(CharSequence email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();

@@ -12,9 +12,9 @@
             android:title="Home" />
 
         <item
-            android:id="@+id/nav_register_kid"
+            android:id="@+id/nav_kid_register"
             android:icon="@drawable/ic_register_kid"
-            android:title="Register Kid" />
+            android:title="Kid Register" />
 
         <item
             android:id="@+id/nav_watch_location"

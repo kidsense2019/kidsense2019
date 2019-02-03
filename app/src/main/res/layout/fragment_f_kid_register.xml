@@ -13,17 +13,18 @@
         <ScrollView
             android:id="@+id/relativeLayout2"
             android:layout_marginTop="20dp"
-            android:layout_width="300dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_width="match_parent"
             android:layout_height="440dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#1DDADADA"
-            android:padding="10dp">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/textView1"
@@ -36,6 +37,7 @@
                     android:fontFamily="@font/allerta_stencil"/>
 
                 <EditText
+                    android:id="@+id/register_nickName"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginTop="10dp"
@@ -57,6 +59,7 @@
                     android:fontFamily="@font/allerta_stencil"/>
 
                 <EditText
+                    android:id="@+id/register_fullname"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:background="@drawable/round_edit_text"
@@ -77,10 +80,12 @@
                     android:fontFamily="@font/allerta_stencil"/>
 
                 <EditText
+                    android:id="@+id/register_bornDate"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:background="@drawable/round_edit_text"
-                    android:inputType="datetime"
+                    android:clickable="true"
+                    android:inputType="none"
                     android:textColor="#000000"
                     android:layout_marginTop="10dp"
                     android:paddingLeft="15dip"/>
@@ -90,13 +95,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:text="Weight"
+                    android:text="Weight (In Kilograms)"
                     android:textColor="#FFFFFF"
                     android:textSize="17dp"
                     android:textStyle="bold"
                     android:fontFamily="@font/allerta_stencil"/>
 
                 <EditText
+                    android:id="@+id/register_weight"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:background="@drawable/round_edit_text"
@@ -110,13 +116,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:text="Height"
+                    android:text="Height (In meters)"
                     android:textColor="#FFFFFF"
                     android:textSize="17dp"
                     android:textStyle="bold"
                     android:fontFamily="@font/allerta_stencil"/>
 
                 <EditText
+                    android:id="@+id/register_height"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:background="@drawable/round_edit_text"
@@ -136,19 +143,36 @@
                     android:textStyle="bold"
                     android:fontFamily="@font/allerta_stencil"/>
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:textColor="#000000"
+                <RadioGroup
+                    android:id="@+id/register_gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/round_edit_text"
-                    android:paddingLeft="15dip" />
+                    android:orientation="horizontal">
 
-        </LinearLayout>
+                    <RadioButton
+                        android:id="@+id/register_gender_male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:checked="true"
+                        android:text="Male"/>
+
+                    <RadioButton
+                        android:id="@+id/register_gender_female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:checked="false"
+                        android:text="Female"
+                        android:layout_marginLeft="25dp"/>
+                </RadioGroup>
+
+            </LinearLayout>
         </ScrollView>
 
         <Button
-            android:id="@+id/signUP_G"
+            android:id="@+id/kid_signUp"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/relativeLayout2"

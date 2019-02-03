@@ -244,8 +244,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         kidList(arrayAdapter, nav_message, urlPost); // post data
                     }
                     catch (JSONException e1) {
-                        arrayAdapter.add(message.getString("message"));
-                        errorMessage(arrayAdapter);
+                        errorMessage(message.getString("message"));
                         e1.printStackTrace();
                     }
                 } catch (JSONException e) {
@@ -330,24 +329,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         builderSingle.show();
     }
 
-    public void errorMessage(final ArrayAdapter<String> arrayAdapter) {
+    public void errorMessage(String message) {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(MapsActivity.this);
         builderSingle.setIcon(R.drawable.ic_kid);
-        builderSingle.setTitle("Oops...");
+        builderSingle.setTitle("We are sorry");
+        builderSingle.setMessage(message);
 
-        builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builderSingle.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked OK button
                 dialog.dismiss();
             }
         });
 
-        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
         builderSingle.show();
     }
 
