@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Home" />
+
+        <item
+            android:id="@+id/nav_register_device"
+            android:icon="@drawable/ic_watch"
+            android:title="Register my device" />
+    </group>
+
+    <item android:title="Setting">
+        <menu>
+            <group android:checkableBehavior="single"
+                android:id="@+id/grup2">
+
+                <item
+                    android:id="@+id/signOut"
+                    android:icon="@drawable/ic_logout"
+                    android:title="Sign Out" />
+            </group>
+
+        </menu>
+    </item>
+
+</menu>
