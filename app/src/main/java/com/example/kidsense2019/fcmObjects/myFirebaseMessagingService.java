@@ -10,11 +10,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
-import com.example.kidsense2019.MainActivity;
-import com.example.kidsense2019.Session;
-import com.example.kidsense2019.location.MapsActivity;
+import com.example.kidsense2019.guardian.Guardian_MainActivity;
+import com.example.kidsense2019.guardian.Session_Guardian;
+import com.example.kidsense2019.guardian.location.MapsActivity;
 import com.example.kidsense2019.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -23,15 +22,15 @@ import java.util.Map;
 
 public class myFirebaseMessagingService extends FirebaseMessagingService {
 
-    private Session session;
+    private Session_Guardian session_guardian;
 
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
         System.out.println("New Fb Token : " + s);
 
-        session = new Session(this);
-        session.saveFCM(s);
+        session_guardian = new Session_Guardian(this);
+        session_guardian.saveFCM(s);
 
     }
 
@@ -96,7 +95,7 @@ public class myFirebaseMessagingService extends FirebaseMessagingService {
                 // set Unique Id
                 uniqueId = 1;
                 // intent
-                intent = new Intent(this, MainActivity.class);
+                intent = new Intent(this, Guardian_MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 // inbox style
                 inboxStyle.setBigContentTitle(data.get("name"));

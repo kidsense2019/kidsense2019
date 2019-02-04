@@ -1,4 +1,4 @@
-package com.example.kidsense2019.LoginLogoutRegistration;
+package com.example.kidsense2019.guardian.SignupRegister;
 
 
 import android.app.AlertDialog;
@@ -18,17 +18,15 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.kidsense2019.R;
-import com.example.kidsense2019.Session;
+import com.example.kidsense2019.guardian.Session_Guardian;
 import com.example.kidsense2019.connection.GetDataTask;
 import com.example.kidsense2019.connection.PostDataTask;
-import com.example.kidsense2019.location.MapsActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 
 /**
@@ -55,7 +53,7 @@ public class f_partnership extends Fragment {
     ArrayList<String> list_selected;
     ArrayList<String> list_name;
     String append="";
-    Session session;
+    Session_Guardian session_guardian;
     Button assignPartnership;
 
     public f_partnership() {
@@ -95,13 +93,13 @@ public class f_partnership extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_f_partnership, container, false);
 
-        session = new Session(view.getContext());
+        session_guardian = new Session_Guardian(view.getContext());
         list_name = new ArrayList<>();
 
         listView = view.findViewById(R.id.list_kid);
         assignGuardianEmail = view.findViewById(R.id.assign_guardian_email);
 
-        getKid(session.getIP() + "/v1/kid/admin/" + session.getGuardianId());
+        getKid(session_guardian.getIP() + "/v1/kid/admin/" + session_guardian.getGuardianId());
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -123,7 +121,7 @@ public class f_partnership extends Fragment {
                 boolean valid = isValid(guardianEmail);
 
                 if (valid) {
-                    pushToServer(guardianEmail, session.getIP() + "/v1/partnership/register");
+                    pushToServer(guardianEmail, session_guardian.getIP() + "/v1/partnership/register");
                 }
             }
         });
@@ -146,7 +144,7 @@ public class f_partnership extends Fragment {
             JSONObject dataToSend = new JSONObject();
 
             try {
-                dataToSend.put("assignee", session.getGuardianId());
+                dataToSend.put("assignee", session_guardian.getGuardianId());
                 dataToSend.put("guardian", guardianEmail);
                 dataToSend.put("nickName", list_selected.get(i));
             } catch (JSONException e) {

@@ -66,7 +66,7 @@ public class PutDataTask extends AsyncTask<Object, Void, String> {
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
 
-        // return value to MainActivity
+        // return value to Guardian_MainActivity
         mSetValue.update(result);
 
         //cancel progress dialog

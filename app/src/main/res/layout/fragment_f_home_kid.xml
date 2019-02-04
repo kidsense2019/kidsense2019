@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".guardian.f_home">
+    tools:context=".kid.f_home_kid">
 
     <!-- TODO: Update blank fragment layout -->
     <RelativeLayout
@@ -27,7 +27,7 @@
             android:textSize="25dp"
             android:layout_marginTop="40dp"
             android:textAlignment="center"
-            android:text="This Is\nKidsense Project\n(Guardian)" />
+            android:text="This Is\nKidsense Project\n(Kid)" />
 
     </RelativeLayout>
 

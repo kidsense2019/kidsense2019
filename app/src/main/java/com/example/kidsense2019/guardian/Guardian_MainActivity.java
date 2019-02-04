@@ -1,4 +1,4 @@
-package com.example.kidsense2019;
+package com.example.kidsense2019.guardian;
 
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -20,15 +20,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.example.kidsense2019.LoginLogoutRegistration.Guardian_SignIn;
-import com.example.kidsense2019.LoginLogoutRegistration.f_kid_register;
-import com.example.kidsense2019.LoginLogoutRegistration.f_partnership;
+import com.example.kidsense2019.R;
+import com.example.kidsense2019.signIn;
+import com.example.kidsense2019.guardian.SignupRegister.f_kid_register;
+import com.example.kidsense2019.guardian.SignupRegister.f_partnership;
 import com.example.kidsense2019.connection.PutDataTask;
-import com.example.kidsense2019.location.MapsActivity;
+import com.example.kidsense2019.guardian.location.MapsActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,10 +37,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class MainActivity extends AppCompatActivity
+public class Guardian_MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    Session session;
+    Session_Guardian session_guardian;
     TextView headerName, headerEmail;
     ImageView profilePicture;
     String profilePicturePath;
@@ -71,10 +71,10 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        session =new Session(MainActivity.this);
-        session.saveIP();
+        session_guardian =new Session_Guardian(Guardian_MainActivity.this);
+        session_guardian.saveIP();
 
-        if(!session.loggedin()){
+        if(!session_guardian.loggedin()){
             logout();
         }
         else {
@@ -85,12 +85,12 @@ public class MainActivity extends AppCompatActivity
 
                 headerName = (TextView)header.findViewById(R.id.header_name);
                 headerEmail = (TextView)header.findViewById(R.id.header_email);
-                headerName.setText(session.getGuardianName());
-                headerEmail.setText(session.getGuardianEmail());
+                headerName.setText(session_guardian.getGuardianName());
+                headerEmail.setText(session_guardian.getGuardianEmail());
 
                 profilePicture = (ImageView)header.findViewById(R.id.header_profile_picture);
                 profilePicture.setOnClickListener(profilePictureOnClickListener);
-                loadImageFromStorage(session.getProfilePicturePath());
+                loadImageFromStorage(session_guardian.getProfilePicturePath());
 
                 f_home F_home = f_home.newInstance("param1", "param2");
                 android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
@@ -103,8 +103,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void logout() {
-
-        PutDataTask put = new PutDataTask(MainActivity.this);
+        PutDataTask put = new PutDataTask(Guardian_MainActivity.this);
         JSONObject dataToSend = new JSONObject();
 
         try {
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        put.execute(session.getIP() + "/v1/guardian/" + session.getGuardianId() ,dataToSend);
+        put.execute(session_guardian.getIP() + "/v1/guardian/" + session_guardian.getGuardianId() ,dataToSend);
         put.getValue(new PutDataTask.setValue() {
             @Override
             public void update(String vData) {
@@ -123,16 +122,16 @@ public class MainActivity extends AppCompatActivity
 
                     if (messageStr.equals("FCM client token has been successfully updated")) {
 
-                        session.setLoggedIn(false);
-                        session.saveGuardianId(0);
-                        session.saveGuardianEmail(null);
-                        session.saveGuardianName(null);
-                        deleteImageFromStorage(session.getProfilePicturePath());
-                        startActivity(new Intent(MainActivity.this, Guardian_SignIn.class));
+                        session_guardian.setLoggedIn(false);
+                        session_guardian.saveGuardianId(0);
+                        session_guardian.saveGuardianEmail(null);
+                        session_guardian.saveGuardianName(null);
+                        deleteImageFromStorage(session_guardian.getProfilePicturePath());
+                        startActivity(new Intent(Guardian_MainActivity.this, signIn.class));
                         finish();
                     }
                     else {
-                        Toast.makeText(MainActivity.this, messageStr ,Toast.LENGTH_LONG).show();
+                        Toast.makeText(Guardian_MainActivity.this, messageStr ,Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -160,7 +159,7 @@ public class MainActivity extends AppCompatActivity
                     InputStream inputStream = this.getContentResolver().openInputStream(data.getData());
                     Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                     profilePicturePath = saveToInternalStorage(bitmap);
-                    session.saveProfilePicturePath(profilePicturePath);
+                    session_guardian.saveProfilePicturePath(profilePicturePath);
                     loadImageFromStorage(profilePicturePath);
                 }
             } catch (FileNotFoundException e) {
@@ -209,7 +208,7 @@ public class MainActivity extends AppCompatActivity
     private void deleteImageFromStorage (String path) {
         File f =new File(path, "profile.jpg");
         f.delete();
-        session.saveProfilePicturePath(null);
+        session_guardian.saveProfilePicturePath(null);
     }
 
     @Override

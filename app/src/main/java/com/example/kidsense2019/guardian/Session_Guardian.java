@@ -1,4 +1,4 @@
-package com.example.kidsense2019;
+package com.example.kidsense2019.guardian;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 /**
  * Created by ASUS on 12/02/2017.
  */
-public class Session {
+public class Session_Guardian {
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
     private Context ctx;
@@ -14,19 +14,19 @@ public class Session {
     private int guardianId;
     private String ip = "http://203.189.123.200:3000";
 
-    public Session(Context ctx) {
+    public Session_Guardian(Context ctx) {
         this.ctx = ctx;
         prefs = ctx.getSharedPreferences("myApp", Context.MODE_PRIVATE);
         editor = prefs.edit();
     }
 
     public void setLoggedIn(Boolean loggedIn) {
-        editor.putBoolean("loggedInmode",loggedIn);
+        editor.putBoolean("loggedInmodeGuardian",loggedIn);
         editor.commit();
     }
 
     public boolean loggedin() {
-        return prefs.getBoolean("loggedInmode",false);
+        return prefs.getBoolean("loggedInmodeGuardian",false);
     }
 
     public void saveIP() {

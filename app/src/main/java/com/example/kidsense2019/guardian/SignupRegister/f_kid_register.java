@@ -1,29 +1,24 @@
-package com.example.kidsense2019.LoginLogoutRegistration;
+package com.example.kidsense2019.guardian.SignupRegister;
 
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.example.kidsense2019.MainActivity;
 import com.example.kidsense2019.R;
-import com.example.kidsense2019.Session;
+import com.example.kidsense2019.guardian.Session_Guardian;
 import com.example.kidsense2019.connection.PostDataTask;
-import com.example.kidsense2019.f_home;
-import com.example.kidsense2019.location.MapsActivity;
+import com.example.kidsense2019.guardian.f_home;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,10 +26,8 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
 
 /**
@@ -59,7 +52,7 @@ public class f_kid_register extends Fragment {
     private RadioButton genderMale;
     private int selectedGender;
     private int heightInt, weightInt;
-    Session session;
+    Session_Guardian session_guardian;
 
     public f_kid_register() {
         // Required empty public constructor
@@ -98,7 +91,7 @@ public class f_kid_register extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_f_kid_register, container, false);
 
-        session = new Session(view.getContext());
+        session_guardian = new Session_Guardian(view.getContext());
 
         nickName = (EditText)view.findViewById(R.id.register_nickName);
         fullName = (EditText)view.findViewById(R.id.register_fullname);
@@ -167,12 +160,12 @@ public class f_kid_register extends Fragment {
                     dataToSend.put("weight", weightInt);
                     dataToSend.put("height", heightInt);
                     dataToSend.put("gender", selectedGender);
-                    dataToSend.put("guardianId", session.getGuardianId());
+                    dataToSend.put("guardianId", session_guardian.getGuardianId());
                     dataToSend.put("nickName", nickNameStr);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                post.execute(session.getIP() + "/v1/kid/signUp/",dataToSend);
+                post.execute(session_guardian.getIP() + "/v1/kid/signUp/",dataToSend);
                 post.getValue(new PostDataTask.setValue() {
                     @Override
                     public void update(String vData) {

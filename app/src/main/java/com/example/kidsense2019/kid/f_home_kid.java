@@ -1,4 +1,4 @@
-package com.example.kidsense2019;
+package com.example.kidsense2019.kid;
 
 
 import android.os.Bundle;
@@ -7,13 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
 
+import com.example.kidsense2019.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link f_home#newInstance} factory method to
+ * Use the {@link f_home_kid#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class f_home extends Fragment {
+public class f_home_kid extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -24,7 +26,7 @@ public class f_home extends Fragment {
     private String mParam2;
 
 
-    public f_home() {
+    public f_home_kid() {
         // Required empty public constructor
     }
 
@@ -34,11 +36,11 @@ public class f_home extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment f_home.
+     * @return A new instance of fragment f_home_kid.
      */
     // TODO: Rename and change types and number of parameters
-    public static f_home newInstance(String param1, String param2) {
-        f_home fragment = new f_home();
+    public static f_home_kid newInstance(String param1, String param2) {
+        f_home_kid fragment = new f_home_kid();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,7 +61,7 @@ public class f_home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_f_home, container, false);
+        return inflater.inflate(R.layout.fragment_f_home_kid, container, false);
     }
 
 }

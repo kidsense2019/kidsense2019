@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/searchMap"
-        tools:context=".location.MapsActivity" />
+        tools:context=".guardian.location.MapsActivity" />
 
     <LinearLayout
         android:id="@+id/searchMap"
@@ -33,6 +33,8 @@
             android:hint="Please set the boundary here"
             android:drawableLeft="@drawable/ic_search"
             android:ems="10"
+            android:textColor="#000000"
+            android:textColorHint="#868686"
             android:drawablePadding="15dp"
             android:inputType="text"
             android:textSize="15dp" />

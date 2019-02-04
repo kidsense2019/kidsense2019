@@ -1,4 +1,4 @@
-package com.example.kidsense2019.location;
+package com.example.kidsense2019.guardian.location;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,9 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kidsense2019.connection.GetDataTask;
-import com.example.kidsense2019.MainActivity;
+import com.example.kidsense2019.guardian.Guardian_MainActivity;
 import com.example.kidsense2019.R;
-import com.example.kidsense2019.Session;
+import com.example.kidsense2019.guardian.Session_Guardian;
 import com.example.kidsense2019.connection.PostDataTask;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -51,7 +51,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Marker mMarker;
     private Geocoder geocoder;
     private List<Address> addresses;
-    private Session session;
+    private Session_Guardian session_guardian;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +107,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mInfo = (ImageView)findViewById(R.id.place_info);
 
-        session = new Session(MapsActivity.this);
+        session_guardian = new Session_Guardian(MapsActivity.this);
     }
 
 
@@ -205,16 +205,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
                 break;
             case R.id.nav_refresh:
-                getKid(session.getIP() + "/v1/kid/user/" + session.getGuardianId(),
-                        "refresh", session.getIP() + "/v1/sensorLocation/request");
+                getKid(session_guardian.getIP() + "/v1/kid/user/" + session_guardian.getGuardianId(),
+                        "refresh", session_guardian.getIP() + "/v1/sensorLocation/request");
                 break;
             case R.id.nav_periodic_set:
-                getKid(session.getIP() + "/v1/kid/admin/" + session.getGuardianId(),
-                        "set", session.getIP() + "/v1/sensorLocation/periodically/state");
+                getKid(session_guardian.getIP() + "/v1/kid/admin/" + session_guardian.getGuardianId(),
+                        "set", session_guardian.getIP() + "/v1/sensorLocation/periodically/state");
                 break;
             case R.id.nav_periodic_unset:
-                getKid(session.getIP() + "/v1/kid/admin/" + session.getGuardianId(),
-                        "unset", session.getIP() + "/v1/sensorLocation/periodically/state");
+                getKid(session_guardian.getIP() + "/v1/kid/admin/" + session_guardian.getGuardianId(),
+                        "unset", session_guardian.getIP() + "/v1/sensorLocation/periodically/state");
                 break;
             default:
                 break;
@@ -283,7 +283,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         if (message.equals("refresh")) {
                             try {
                                 dataToSend.put("nickName", strName);
-                                dataToSend.put("guardianId", session.getGuardianId());
+                                dataToSend.put("guardianId", session_guardian.getGuardianId());
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -348,7 +348,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, Guardian_MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();

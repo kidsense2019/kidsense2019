@@ -1,4 +1,4 @@
-package com.example.kidsense2019.LoginLogoutRegistration;
+package com.example.kidsense2019.guardian.SignupRegister;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,9 +9,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kidsense2019.MainActivity;
+import com.example.kidsense2019.signIn;
+import com.example.kidsense2019.guardian.Guardian_MainActivity;
 import com.example.kidsense2019.R;
-import com.example.kidsense2019.Session;
+import com.example.kidsense2019.guardian.Session_Guardian;
 import com.example.kidsense2019.connection.PostDataTask;
 
 import org.json.JSONException;
@@ -24,14 +25,14 @@ public class Guardian_SignUp extends Activity {
     private Button signUp;
     private EditText email, name, password, confPassword;
     private TextView signIn_page;
-    private Session session;
+    private Session_Guardian session_guardian;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guardian__sign_up);
 
-        session = new Session(Guardian_SignUp.this);
+        session_guardian = new Session_Guardian(Guardian_SignUp.this);
 
         signUp = (Button)findViewById(R.id.guardian_signUp);
         signIn_page = (TextView)findViewById(R.id.signIn_page);
@@ -63,11 +64,11 @@ public class Guardian_SignUp extends Activity {
                     dataToSend.put("email", emailStr);
                     dataToSend.put("name", nameStr);
                     dataToSend.put("password", passwordStr);
-                    dataToSend.put("fcmClientToken", session.getFCM());
+                    dataToSend.put("fcmClientToken", session_guardian.getFCM());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                post.execute(session.getIP() + "/v1/guardian/signUp",dataToSend);
+                post.execute(session_guardian.getIP() + "/v1/guardian/signUp",dataToSend);
                 post.getValue(new PostDataTask.setValue() {
                     @Override
                     public void update(String vData) {
@@ -78,14 +79,14 @@ public class Guardian_SignUp extends Activity {
                             String messageStr = message.getString("message");
 
                             if (messageStr.equals("Thanks! You have successfully signed up")) {
-                                session.saveGuardianId(message.getInt("guardianId"));
-                                session.saveGuardianEmail(message.getString("email"));
-                                session.saveGuardianName(message.getString("name"));
-                                session.setLoggedIn(true);
+                                session_guardian.saveGuardianId(message.getInt("guardianId"));
+                                session_guardian.saveGuardianEmail(message.getString("email"));
+                                session_guardian.saveGuardianName(message.getString("name"));
+                                session_guardian.setLoggedIn(true);
 
                                 Toast.makeText(Guardian_SignUp.this, messageStr ,Toast.LENGTH_LONG).show();
 
-                                Intent intent = new Intent(Guardian_SignUp.this, MainActivity.class);
+                                Intent intent = new Intent(Guardian_SignUp.this, Guardian_MainActivity.class);
                                 startActivity(intent);
                                 finish();
 
@@ -107,7 +108,7 @@ public class Guardian_SignUp extends Activity {
         @Override
         public void onClick(View v) {
 
-            startActivity(new Intent(Guardian_SignUp.this, Guardian_SignIn.class));
+            startActivity(new Intent(Guardian_SignUp.this, signIn.class));
             finish();
         }
     };
