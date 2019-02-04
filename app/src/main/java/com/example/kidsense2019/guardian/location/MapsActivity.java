@@ -24,6 +24,8 @@ import com.example.kidsense2019.guardian.Guardian_MainActivity;
 import com.example.kidsense2019.R;
 import com.example.kidsense2019.guardian.Session_Guardian;
 import com.example.kidsense2019.connection.PostDataTask;
+import com.example.kidsense2019.kid.Kid_MainActivity;
+import com.example.kidsense2019.signIn;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -45,7 +47,7 @@ import org.json.JSONObject;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private double lat, lng;
+    private double lat, lng, latBound, lngBound;
     private String sdId = "Surabaya", stmp = "undefined", snippet = "", slat = "-7.265237", slng = "112.7472288";
     private ImageView mInfo;
     private Marker mMarker;
@@ -76,8 +78,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             stmp = intent.getStringExtra("timestamp");
         }
 
-        lat = Double.parseDouble(slat);
-        lng = Double.parseDouble(slng);
+        try {
+            lat = Double.parseDouble(slat);
+        }catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            lng = Double.parseDouble(slng);
+        }catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("lat : " + lat + " lng : " + lng);
 
         geocoder = new Geocoder(this, Locale.getDefault());
         try {
@@ -86,21 +99,26 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             e.printStackTrace();
         }
 
-        String address = addresses.get(0).getAddressLine(0);
-        String postalCode = addresses.get(0).getPostalCode();
-        String phone = addresses.get(0).getPhone();
+        if (!addresses.isEmpty()) {
+            String address = addresses.get(0).getAddressLine(0);
+            String postalCode = addresses.get(0).getPostalCode();
+            String phone = addresses.get(0).getPhone();
 
-        String phoneSnippet = null;
-        if (phone == null) {
-            phoneSnippet = "-"; }
+            String phoneSnippet = null;
+            if (phone == null) {
+                phoneSnippet = "-"; }
+            else {
+                phoneSnippet = phone; }
+
+            snippet = "Address : " + address + "\n"
+                    + "Postal Code : " + postalCode + "\n"
+                    + "Lat, Lng : " + lat + ", " + lng + "\n"
+                    + "Phone : " + phoneSnippet + "\n"
+                    + "When : " + stmp;
+        }
         else {
-            phoneSnippet = phone; }
-
-        snippet = "Address : " + address + "\n"
-                + "Postal Code : " + postalCode + "\n"
-                + "Lat, Lng : " + lat + ", " + lng + "\n"
-                + "Phone : " + phoneSnippet + "\n"
-                + "When : " + stmp;
+            errorMessage2("We can't find this location");
+        }
 
         System.out.println("lat : " + lat);
         System.out.println("lng : " + lng);
@@ -241,7 +259,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             JSONObject kid = kids.getJSONObject(i);
                             arrayAdapter.add(kid.getString("nickName"));
                         }
-                        kidList(arrayAdapter, nav_message, urlPost); // post data
+
+                        if (nav_message.equals("bound")) {
+                            kidListBound(arrayAdapter, urlPost); // post data
+                        }
+                        else {
+                            kidList(arrayAdapter, nav_message, urlPost); // post data
+                        }
                     }
                     catch (JSONException e1) {
                         errorMessage(message.getString("message"));
@@ -329,6 +353,41 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         builderSingle.show();
     }
 
+
+    public void kidListBound(final ArrayAdapter<String> arrayAdapter, final String url) {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(MapsActivity.this);
+        builderSingle.setIcon(R.drawable.ic_kid);
+        builderSingle.setTitle("Select One Name:-");
+
+        builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                final String strName = arrayAdapter.getItem(which);
+                AlertDialog.Builder builderInner = new AlertDialog.Builder(MapsActivity.this);
+                builderInner.setMessage(strName);
+                builderInner.setTitle("Your Selected Kid is");
+                builderInner.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog,int which) {
+
+                        Toast.makeText(MapsActivity.this, "The boundary has been set at lat : " + latBound + " and lng : " + lngBound, Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                    }
+                });
+                builderInner.show();
+            }
+        });
+        builderSingle.show();
+    }
+
+
     public void errorMessage(String message) {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(MapsActivity.this);
         builderSingle.setIcon(R.drawable.ic_kid);
@@ -339,6 +398,26 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked OK button
                 dialog.dismiss();
+            }
+        });
+
+        builderSingle.show();
+    }
+
+    public void errorMessage2(String message) {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(MapsActivity.this);
+        builderSingle.setIcon(R.drawable.ic_kid);
+        builderSingle.setTitle("We are sorry");
+        builderSingle.setMessage(message);
+
+        builderSingle.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked OK button
+                dialog.dismiss();
+                Intent intent = new Intent(MapsActivity.this, Guardian_MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -361,13 +440,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Geocoder gc = new Geocoder(this);
         List<Address> list = gc.getFromLocationName(location, 1);
-        Address address = list.get(0);
-        String addressLine = address.getAddressLine(0);
+        if (!list.isEmpty()) {
+            Address address = list.get(0);
 
-        Toast.makeText(this, "The boundary has been set at : " + addressLine, Toast.LENGTH_LONG).show();
+//            String addressLine = address.getAddressLine(0);
+//            Toast.makeText(this, "The boundary has been set at : " + addressLine, Toast.LENGTH_LONG).show();
 
-        double lat = address.getLatitude();
-        double lng = address.getLongitude();
+            getKid(session_guardian.getIP() + "/v1/kid/admin/" + session_guardian.getGuardianId(),
+                    "bound", session_guardian.getIP() + "/v1/sensorLocation/periodically/state");
 
+            latBound = address.getLatitude();
+            lngBound = address.getLongitude();
+        }
+        else {
+            errorMessage("We can't find this location");
+        }
     }
 }
