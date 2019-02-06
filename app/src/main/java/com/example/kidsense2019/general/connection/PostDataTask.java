@@ -1,9 +1,11 @@
-package com.example.kidsense2019.connection;
+package com.example.kidsense2019.general.connection;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+
+import com.google.android.gms.common.util.JsonUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,7 +20,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class PutDataTask extends AsyncTask<Object, Void, String> {
+public class PostDataTask extends AsyncTask<Object, Void, String> {
 
     ProgressDialog progressDialog;
     Context ctx;
@@ -33,7 +35,7 @@ public class PutDataTask extends AsyncTask<Object, Void, String> {
         public void update(String vData);
     }
 
-    public PutDataTask(Context ctx) {
+    public PostDataTask(Context ctx) {
 
         this.ctx = ctx;
         activity = (Activity)ctx;
@@ -44,7 +46,7 @@ public class PutDataTask extends AsyncTask<Object, Void, String> {
         try {
             String url = (String) obj[0];
             JSONObject json = (JSONObject) obj[1];
-            return putData(url,json);
+            return postData(url,json);
         } catch (IOException ex) {
             return "Network error !";
         } catch (JSONException e) {
@@ -75,7 +77,7 @@ public class PutDataTask extends AsyncTask<Object, Void, String> {
         }
     }
 
-    private String putData(String urlPath,JSONObject dataToSend) throws IOException, JSONException {
+    private String postData(String urlPath,JSONObject dataToSend) throws IOException, JSONException {
 
         StringBuilder result = new StringBuilder();
         BufferedReader bufferedReader = null;
@@ -90,7 +92,7 @@ public class PutDataTask extends AsyncTask<Object, Void, String> {
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setReadTimeout(10000 /*milliseconds*/);
             urlConnection.setConnectTimeout(10000 /*milliseconds*/);
-            urlConnection.setRequestMethod("PUT");
+            urlConnection.setRequestMethod("POST");
             urlConnection.setDoOutput(true); // enable output (body data)
             urlConnection.setRequestProperty("Content-Type", "application/json"); // set header
             urlConnection.connect();

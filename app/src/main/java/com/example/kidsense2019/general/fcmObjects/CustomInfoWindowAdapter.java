@@ -1,4 +1,4 @@
-package com.example.kidsense2019.fcmObjects;
+package com.example.kidsense2019.general.fcmObjects;
 
 import android.content.Context;
 import android.view.LayoutInflater;

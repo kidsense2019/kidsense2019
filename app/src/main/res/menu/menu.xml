@@ -5,6 +5,10 @@
         <item
             android:id="@+id/nav_refresh"
             android:title="Where is my kids?" />
+
+        <item
+            android:id="@+id/nav_bound_unset"
+            android:title="Unset Locaton Bound" />
     </group>
 
     <group>

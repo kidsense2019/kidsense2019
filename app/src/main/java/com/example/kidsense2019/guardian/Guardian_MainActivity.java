@@ -21,10 +21,10 @@ import android.widget.Toast;
 
 
 import com.example.kidsense2019.R;
-import com.example.kidsense2019.signIn;
+import com.example.kidsense2019.general.signIn;
 import com.example.kidsense2019.guardian.SignupRegister.f_kid_register;
 import com.example.kidsense2019.guardian.SignupRegister.f_partnership;
-import com.example.kidsense2019.connection.PutDataTask;
+import com.example.kidsense2019.general.connection.PutDataTask;
 import com.example.kidsense2019.guardian.location.MapsActivity;
 
 import org.json.JSONException;

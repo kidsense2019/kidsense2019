@@ -1,18 +1,24 @@
-package com.example.kidsense2019.connection;
+package com.example.kidsense2019.general.connection;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class GetDataTask extends AsyncTask<String, Void, String>{
+public class PutDataTask extends AsyncTask<Object, Void, String> {
 
     ProgressDialog progressDialog;
     Context ctx;
@@ -27,30 +33,34 @@ public class GetDataTask extends AsyncTask<String, Void, String>{
         public void update(String vData);
     }
 
-    public GetDataTask(Context ctx) {
+    public PutDataTask(Context ctx) {
 
         this.ctx = ctx;
         activity = (Activity)ctx;
     }
 
     @Override
-    protected void onPreExecute() {
-
-        super.onPreExecute();
-        progressDialog = new ProgressDialog(activity);
-        progressDialog.setMessage("Loading data...");
-        progressDialog.show();
+    protected String doInBackground(Object... obj) {
+        try {
+            String url = (String) obj[0];
+            JSONObject json = (JSONObject) obj[1];
+            return putData(url,json);
+        } catch (IOException ex) {
+            return "Network error !";
+        } catch (JSONException e) {
+            return "Data invalid !";
+        }
     }
 
     @Override
-    protected String doInBackground(String... params) {
+    protected void onPreExecute() {
+        super.onPreExecute();
 
-        try {
-            return getData(params[0]);
-        } catch (IOException ex) {
-            return "Network error !";
-        }
+        progressDialog = new ProgressDialog(activity);
+        progressDialog.setMessage("Sending data...");
+        progressDialog.show();
     }
+
 
     @Override
     protected void onPostExecute(String result) {
@@ -63,38 +73,54 @@ public class GetDataTask extends AsyncTask<String, Void, String>{
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
-
     }
 
-    private String getData(String urlPath) throws IOException {
+    private String putData(String urlPath,JSONObject dataToSend) throws IOException, JSONException {
+
         StringBuilder result = new StringBuilder();
         BufferedReader bufferedReader = null;
+        BufferedWriter bufferedWriter = null;
 
         try {
-            // Initialize and config request, then connect to server
+            //Create data to send to server
+
+
+            //Initialize and config request, then connect to server
             URL url = new URL(urlPath);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setReadTimeout(10000 /*milliseconds*/);
             urlConnection.setConnectTimeout(10000 /*milliseconds*/);
-            urlConnection.setRequestMethod("GET");
+            urlConnection.setRequestMethod("PUT");
+            urlConnection.setDoOutput(true); // enable output (body data)
             urlConnection.setRequestProperty("Content-Type", "application/json"); // set header
             urlConnection.connect();
 
-            // Read data response from server
+            //Write data into server
+            OutputStream outputStream = urlConnection.getOutputStream();
+            bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
+            bufferedWriter.write(dataToSend.toString());
+            bufferedWriter.flush();
+
+            //Read data response from server
             InputStream inputStream;
             if(urlConnection.getResponseCode()<HttpURLConnection.HTTP_BAD_REQUEST){
                 inputStream = urlConnection.getInputStream();
             }else {
                 inputStream = urlConnection.getErrorStream();
             }
+
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 result.append(line).append("\n");
             }
         } finally {
+            // close resource
             if (bufferedReader != null) {
                 bufferedReader.close();
+            }
+            if (bufferedWriter != null) {
+                bufferedWriter.close();
             }
         }
 

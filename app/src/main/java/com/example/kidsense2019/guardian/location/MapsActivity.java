@@ -19,13 +19,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kidsense2019.connection.GetDataTask;
+import com.example.kidsense2019.general.connection.GetDataTask;
 import com.example.kidsense2019.guardian.Guardian_MainActivity;
 import com.example.kidsense2019.R;
 import com.example.kidsense2019.guardian.Session_Guardian;
-import com.example.kidsense2019.connection.PostDataTask;
-import com.example.kidsense2019.kid.Kid_MainActivity;
-import com.example.kidsense2019.signIn;
+import com.example.kidsense2019.general.connection.PostDataTask;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -38,7 +36,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-import com.example.kidsense2019.fcmObjects.CustomInfoWindowAdapter;
+import com.example.kidsense2019.general.fcmObjects.CustomInfoWindowAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -228,11 +226,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
             case R.id.nav_periodic_set:
                 getKid(session_guardian.getIP() + "/v1/kid/admin/" + session_guardian.getGuardianId(),
-                        "set", session_guardian.getIP() + "/v1/sensorLocation/periodically/state");
+                        "periodic set", session_guardian.getIP() + "/v1/sensorLocation/state");
                 break;
             case R.id.nav_periodic_unset:
                 getKid(session_guardian.getIP() + "/v1/kid/admin/" + session_guardian.getGuardianId(),
-                        "unset", session_guardian.getIP() + "/v1/sensorLocation/periodically/state");
+                        "periodic unset", session_guardian.getIP() + "/v1/sensorLocation/state");
+                break;
+            case R.id.nav_bound_unset:
+                getKid(session_guardian.getIP() + "/v1/kid/admin/" + session_guardian.getGuardianId(),
+                        "bound unset", session_guardian.getIP() + "/v1/sensorLocation/state");
                 break;
             default:
                 break;
@@ -268,7 +270,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                     }
                     catch (JSONException e1) {
-                        errorMessage(message.getString("message"));
+                        message("We are sorry", message.getString("message"));
                         e1.printStackTrace();
                     }
                 } catch (JSONException e) {
@@ -280,7 +282,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void kidList(final ArrayAdapter<String> arrayAdapter, final String message , final String url) {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(MapsActivity.this);
-        builderSingle.setIcon(R.drawable.ic_kid);
+        builderSingle.setIcon(R.drawable.ic_kid_blue);
         builderSingle.setTitle("Select One Name:-");
 
         builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -312,18 +314,26 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 e.printStackTrace();
                             }
                         }
-                        else if (message.equals("set")) {
+                        else if (message.equals("periodic set")) {
                             try {
                                 dataToSend.put("nickName", strName);
-                                dataToSend.put("state", "set");
+                                dataToSend.put("message", message);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
-                        else if (message.equals("unset")) {
+                        else if (message.equals("periodic unset")) {
                             try {
                                 dataToSend.put("nickName", strName);
-                                dataToSend.put("state", "unset");
+                                dataToSend.put("message", message);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else if (message.equals("bound unset")) {
+                            try {
+                                dataToSend.put("nickName", strName);
+                                dataToSend.put("message", message);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -356,7 +366,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void kidListBound(final ArrayAdapter<String> arrayAdapter, final String url) {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(MapsActivity.this);
-        builderSingle.setIcon(R.drawable.ic_kid);
+        builderSingle.setIcon(R.drawable.ic_kid_blue);
         builderSingle.setTitle("Select One Name:-");
 
         builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -377,7 +387,39 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     @Override
                     public void onClick(DialogInterface dialog,int which) {
 
-                        Toast.makeText(MapsActivity.this, "The boundary has been set at lat : " + latBound + " and lng : " + lngBound, Toast.LENGTH_LONG).show();
+                        PostDataTask post = new PostDataTask(MapsActivity.this);
+                        JSONObject dataToSend = new JSONObject();
+
+                        try {
+                            dataToSend.put("nickName", strName);
+                            dataToSend.put("latitude", latBound);
+                            dataToSend.put("longitude", lngBound);
+                            dataToSend.put("guardianId", session_guardian.getGuardianId());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        post.execute(url,dataToSend);
+                        post.getValue(new PostDataTask.setValue() {
+                            @Override
+                            public void update(String vData) {
+                                try {
+                                    System.out.println("reply: "+vData);
+                                    JSONObject message = new JSONObject(vData);
+
+                                    if (message.getString("message").equals("Your request has been sent successfully")) {
+                                        message("Location Bound", message.getString("message"));
+                                    }
+                                    else {
+                                        message("We are sorry", message.getString("message"));
+                                    }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
                         dialog.dismiss();
                     }
                 });
@@ -388,10 +430,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-    public void errorMessage(String message) {
+    public void message(String title, String message) {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(MapsActivity.this);
-        builderSingle.setIcon(R.drawable.ic_kid);
-        builderSingle.setTitle("We are sorry");
+        builderSingle.setIcon(R.drawable.ic_kid_blue);
+        builderSingle.setTitle(title);
         builderSingle.setMessage(message);
 
         builderSingle.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -406,7 +448,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void errorMessage2(String message) {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(MapsActivity.this);
-        builderSingle.setIcon(R.drawable.ic_kid);
+        builderSingle.setIcon(R.drawable.ic_kid_blue);
         builderSingle.setTitle("We are sorry");
         builderSingle.setMessage(message);
 
@@ -447,13 +489,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 //            Toast.makeText(this, "The boundary has been set at : " + addressLine, Toast.LENGTH_LONG).show();
 
             getKid(session_guardian.getIP() + "/v1/kid/admin/" + session_guardian.getGuardianId(),
-                    "bound", session_guardian.getIP() + "/v1/sensorLocation/periodically/state");
+                    "bound", session_guardian.getIP() + "/v1/sensorLocation/bound");
 
             latBound = address.getLatitude();
             lngBound = address.getLongitude();
         }
         else {
-            errorMessage("We can't find this location");
+            message("We are sorry","We can't find this location");
         }
     }
 }

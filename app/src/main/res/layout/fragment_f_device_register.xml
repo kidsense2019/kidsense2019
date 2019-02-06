@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".kid.f_device_register">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/MAC_layout"
+            android:layout_width="340dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/round_button">
+
+            <TextView
+                android:id="@+id/MAC_Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/allerta_stencil"
+                android:text="Device MAC Address"
+                android:textColor="#D3D3D3"
+                android:textSize="17dp"
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/MAC_linear_layout"
+                android:layout_below="@+id/MAC_Title"
+                android:padding="10dip"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/MAC_1"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/email_singIn_tv"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:textSize="15dp"
+                    android:maxLength="2"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:imeOptions="actionNext"
+                    android:padding="10dip"
+                    android:textColor="#000000"
+                    android:background="@drawable/shape"
+                    android:nextFocusRight="@+id/MAC_2"  />
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="@font/allerta_stencil"
+                    android:text=":"
+                    android:textColor="#1eb980"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/MAC_2"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/email_singIn_tv"
+                    android:layout_marginLeft="5dp"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:textSize="15dp"
+                    android:maxLength="2"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:imeOptions="actionNext"
+                    android:padding="10dip"
+                    android:textColor="#000000"
+                    android:background="@drawable/shape" />
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="@font/allerta_stencil"
+                    android:text=":"
+                    android:textColor="#1eb980"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/MAC_3"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/email_singIn_tv"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:textSize="15dp"
+                    android:maxLength="2"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:imeOptions="actionNext"
+                    android:layout_marginLeft="5dp"
+                    android:padding="10dip"
+                    android:textColor="#000000"
+                    android:background="@drawable/shape" />
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="@font/allerta_stencil"
+                    android:text=":"
+                    android:textColor="#1eb980"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/MAC_4"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/email_singIn_tv"
+                    android:layout_marginLeft="5dp"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:textSize="15dp"
+                    android:maxLength="2"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:imeOptions="actionNext"
+                    android:padding="10dip"
+                    android:textColor="#000000"
+                    android:background="@drawable/shape" />
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="@font/allerta_stencil"
+                    android:text=":"
+                    android:textColor="#1eb980"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/MAC_5"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/email_singIn_tv"
+                    android:ems="10"
+                    android:layout_marginLeft="5dp"
+                    android:inputType="text"
+                    android:textSize="15dp"
+                    android:maxLength="2"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:imeOptions="actionNext"
+                    android:padding="10dip"
+                    android:textColor="#000000"
+                    android:background="@drawable/shape" />
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="@font/allerta_stencil"
+                    android:text=":"
+                    android:textColor="#1eb980"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/MAC_6"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/email_singIn_tv"
+                    android:ems="10"
+                    android:layout_marginLeft="5dp"
+                    android:inputType="text"
+                    android:textSize="15dp"
+                    android:maxLength="2"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:imeOptions="actionDone"
+                    android:padding="10dip"
+                    android:textColor="#000000"
+                    android:background="@drawable/shape" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/device_Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_below="@id/MAC_linear_layout"
+                android:fontFamily="@font/allerta_stencil"
+                android:text="Device Type"
+                android:textColor="#D3D3D3"
+                android:textSize="17dp"
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/device_type"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/device_Title"
+                android:ems="10"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:padding="10dip"
+                android:inputType="text"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:textColor="#000000"
+                android:background="@drawable/shape" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/MAC_Register"
+            android:layout_width="340dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/MAC_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="45dp"
+            android:textColor="#D3D3D3"
+            android:background="@drawable/round_button"
+            android:fontFamily="@font/allerta_stencil"
+            android:textStyle="bold"
+            android:text="Register" />
+
+        <LinearLayout
+            android:layout_below="@+id/signUp_page"
+            android:layout_marginBottom="35dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_kidsense_logo"
+                android:layout_gravity="bottom"/>
+
+            <TextView
+                android:id="@+id/kid_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="K"
+                android:paddingLeft="3dp"
+                android:textSize="20dp"
+                android:textColor="#FF0000"
+                android:layout_gravity="bottom"
+                android:textStyle="italic"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="i"
+                android:textSize="20dp"
+                android:textColor="#FFD400"
+                android:layout_gravity="bottom"
+                android:textStyle="italic"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="D"
+                android:textSize="20dp"
+                android:textColor="#2FFF00"
+                android:layout_gravity="bottom"
+                android:textStyle="italic"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:paddingLeft="1dp"
+                android:text="sense"
+                android:textSize="15dp"
+                android:textColor="#00FFFF"
+                android:layout_gravity="bottom"
+                android:textStyle="italic"
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

@@ -9,11 +9,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kidsense2019.signIn;
+import com.example.kidsense2019.general.signIn;
 import com.example.kidsense2019.guardian.Guardian_MainActivity;
 import com.example.kidsense2019.R;
 import com.example.kidsense2019.guardian.Session_Guardian;
-import com.example.kidsense2019.connection.PostDataTask;
+import com.example.kidsense2019.general.connection.PostDataTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;

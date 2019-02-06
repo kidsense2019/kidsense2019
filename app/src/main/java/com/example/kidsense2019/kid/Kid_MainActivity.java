@@ -20,10 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kidsense2019.R;
-import com.example.kidsense2019.connection.PutDataTask;
-import com.example.kidsense2019.guardian.Guardian_MainActivity;
+import com.example.kidsense2019.general.connection.PutDataTask;
 import com.example.kidsense2019.guardian.Session_Guardian;
-import com.example.kidsense2019.signIn;
+import com.example.kidsense2019.general.signIn;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -263,7 +262,17 @@ public class Kid_MainActivity extends AppCompatActivity
             transaction.replace(R.id.layout_for_fragment, F_home_kid,
                     F_home_kid.getTag());
             transaction.commit();
-        }else if (id == R.id.signOut) {
+        } else if (id == R.id.nav_register_device) {
+            setTitle("Register my device");
+
+            f_device_register F_device_register = f_device_register.newInstance("param1", "param2");
+            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+            android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.layout_for_fragment, F_device_register,
+                    F_device_register.getTag());
+            transaction.commit();
+        }
+        else if (id == R.id.signOut) {
             logout();
         }
 

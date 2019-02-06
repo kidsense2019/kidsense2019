@@ -1,4 +1,4 @@
-package com.example.kidsense2019;
+package com.example.kidsense2019.general;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,11 +9,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kidsense2019.R;
 import com.example.kidsense2019.guardian.SignupRegister.Guardian_SignUp;
 import com.example.kidsense2019.guardian.Guardian_MainActivity;
 import com.example.kidsense2019.guardian.Session_Guardian;
-import com.example.kidsense2019.connection.PostDataTask;
-import com.example.kidsense2019.connection.PutDataTask;
+import com.example.kidsense2019.general.connection.PostDataTask;
+import com.example.kidsense2019.general.connection.PutDataTask;
 import com.example.kidsense2019.kid.Kid_MainActivity;
 import com.example.kidsense2019.kid.Session_Kid;
 
@@ -107,7 +108,7 @@ public class signIn extends Activity {
                                     signInKid.setVisibility(View.VISIBLE);
                                 }
                                 else {
-                                    Toast.makeText(com.example.kidsense2019.signIn.this, messageStr ,Toast.LENGTH_LONG).show();
+                                    Toast.makeText(signIn.this, messageStr ,Toast.LENGTH_LONG).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();

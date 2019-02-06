@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.example.kidsense2019.R;
 import com.example.kidsense2019.guardian.Session_Guardian;
-import com.example.kidsense2019.connection.PostDataTask;
+import com.example.kidsense2019.general.connection.PostDataTask;
 import com.example.kidsense2019.guardian.f_home;
 
 import org.json.JSONException;
@@ -192,7 +192,7 @@ public class f_kid_register extends Fragment {
 
     public void newRegister(String message) {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(view.getContext());
-        builderSingle.setIcon(R.drawable.ic_kid);
+        builderSingle.setIcon(R.drawable.ic_kid_blue);
         builderSingle.setTitle(message);
         builderSingle.setMessage("Do you want to register another kid?");
 
