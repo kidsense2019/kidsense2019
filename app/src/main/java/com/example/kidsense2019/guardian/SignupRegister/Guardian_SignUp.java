@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kidsense2019.general.Session;
 import com.example.kidsense2019.general.signIn;
 import com.example.kidsense2019.guardian.Guardian_MainActivity;
 import com.example.kidsense2019.R;
@@ -26,12 +27,14 @@ public class Guardian_SignUp extends Activity {
     private EditText email, name, password, confPassword;
     private TextView signIn_page;
     private Session_Guardian session_guardian;
+    private Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guardian__sign_up);
 
+        session = new Session(Guardian_SignUp.this);
         session_guardian = new Session_Guardian(Guardian_SignUp.this);
 
         signUp = (Button)findViewById(R.id.guardian_signUp);
@@ -64,11 +67,11 @@ public class Guardian_SignUp extends Activity {
                     dataToSend.put("email", emailStr);
                     dataToSend.put("name", nameStr);
                     dataToSend.put("password", passwordStr);
-                    dataToSend.put("fcmClientToken", session_guardian.getFCM());
+                    dataToSend.put("fcmClientToken", session.getFCM());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                post.execute(session_guardian.getIP() + "/v1/guardian/signUp",dataToSend);
+                post.execute(session.getIP() + "/v1/guardian/signUp",dataToSend);
                 post.getValue(new PostDataTask.setValue() {
                     @Override
                     public void update(String vData) {

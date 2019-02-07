@@ -28,15 +28,18 @@ public class signIn extends Activity {
     private TextView signUp_page, emailSignInTv;
     private Session_Guardian session_guardian;
     private Session_Kid session_kid;
+    private Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__sign_in);
 
+        session = new Session(signIn.this);
         session_guardian = new Session_Guardian(signIn.this);
         session_kid = new Session_Kid(signIn.this);
-        session_guardian.saveIP();
+
+        session.saveIP();
 
         emailSignInTv = (TextView)findViewById(R.id.email_singIn_tv);
         signInReq = (Button)findViewById(R.id.signIn_req);
@@ -85,7 +88,7 @@ public class signIn extends Activity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    post.execute(session_guardian.getIP() + "/v1/kid/signIn/authReq",dataToSend);
+                    post.execute(session.getIP() + "/v1/kid/signIn/authReq",dataToSend);
                     post.getValue(new PostDataTask.setValue() {
                         @Override
                         public void update(String vData) {
@@ -156,7 +159,7 @@ public class signIn extends Activity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                post.execute(session_guardian.getIP() + "/v1/kid/signIn/",dataToSend);
+                post.execute(session.getIP() + "/v1/kid/signIn/",dataToSend);
                 post.getValue(new PostDataTask.setValue() {
                     @Override
                     public void update(String vData) {
@@ -171,7 +174,7 @@ public class signIn extends Activity {
                                 session_kid.saveKidFullname(message.getString("fullName"));
                                 session_kid.saveKidId(message.getInt("kidId"));
 
-                                updateFCMToken(session_guardian.getIP() + "/v1/kid/" + session_kid.getKidId(), "kid");
+                                updateFCMToken(session.getIP() + "/v1/kid/" + session_kid.getKidId(), "kid");
                             }
                             else {
                                 Toast.makeText(signIn.this, messageStr ,Toast.LENGTH_LONG).show();
@@ -205,7 +208,7 @@ public class signIn extends Activity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                post.execute(session_guardian.getIP() + "/v1/guardian/signIn",dataToSend);
+                post.execute(session.getIP() + "/v1/guardian/signIn",dataToSend);
                 post.getValue(new PostDataTask.setValue() {
                     @Override
                     public void update(String vData) {
@@ -220,7 +223,7 @@ public class signIn extends Activity {
                                 session_guardian.saveGuardianEmail(message.getString("email"));
                                 session_guardian.saveGuardianName(message.getString("name"));
 
-                                updateFCMToken(session_guardian.getIP() + "/v1/guardian/" + session_guardian.getGuardianId(), "guardian");
+                                updateFCMToken(session.getIP() + "/v1/guardian/" + session_guardian.getGuardianId(), "guardian");
                             }
                             else {
                                 Toast.makeText(signIn.this, messageStr ,Toast.LENGTH_LONG).show();
@@ -260,7 +263,7 @@ public class signIn extends Activity {
         JSONObject dataToSend = new JSONObject();
 
         try {
-            dataToSend.put("fcmClientToken", session_guardian.getFCM());
+            dataToSend.put("fcmClientToken", session.getFCM());
         } catch (JSONException e) {
             e.printStackTrace();
         }

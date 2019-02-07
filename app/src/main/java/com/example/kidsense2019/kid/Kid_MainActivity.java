@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kidsense2019.R;
+import com.example.kidsense2019.general.Session;
 import com.example.kidsense2019.general.connection.PutDataTask;
 import com.example.kidsense2019.guardian.Session_Guardian;
 import com.example.kidsense2019.general.signIn;
@@ -38,7 +39,7 @@ public class Kid_MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Session_Kid session_kid;
-    private Session_Guardian session_guardian;
+    private Session session;
     TextView headerFullname, headerNickname;
     ImageView profilePicture;
     String profilePicturePath;
@@ -70,9 +71,10 @@ public class Kid_MainActivity extends AppCompatActivity
 //            }
 //        });
 
-        session_guardian =new Session_Guardian(this);
+        session = new Session(this);
         session_kid = new Session_Kid(this);
-        session_guardian.saveIP();
+
+        session.saveIP();
 
         if(!session_kid.loggedin()){
             logout();
@@ -90,7 +92,7 @@ public class Kid_MainActivity extends AppCompatActivity
 
                 profilePicture = (ImageView)header.findViewById(R.id.header_profile_picture_kid);
                 profilePicture.setOnClickListener(profilePictureOnClickListener);
-                loadImageFromStorage(session_guardian.getProfilePicturePath());
+                loadImageFromStorage(session_kid.getProfilePicturePath());
 
                 f_home_kid F_home_kid = f_home_kid.newInstance("param1", "param2");
                 android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
@@ -113,7 +115,7 @@ public class Kid_MainActivity extends AppCompatActivity
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        put.execute(session_guardian.getIP() + "/v1/kid/" + session_kid.getKidId() ,dataToSend);
+        put.execute(session.getIP() + "/v1/kid/" + session_kid.getKidId() ,dataToSend);
         put.getValue(new PutDataTask.setValue() {
             @Override
             public void update(String vData) {

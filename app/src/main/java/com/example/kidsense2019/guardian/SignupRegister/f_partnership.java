@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.kidsense2019.R;
+import com.example.kidsense2019.general.Session;
 import com.example.kidsense2019.guardian.Session_Guardian;
 import com.example.kidsense2019.general.connection.GetDataTask;
 import com.example.kidsense2019.general.connection.PostDataTask;
@@ -55,6 +56,7 @@ public class f_partnership extends Fragment {
     String append="";
     Session_Guardian session_guardian;
     Button assignPartnership;
+    private Session session;
 
     public f_partnership() {
         // Required empty public constructor
@@ -93,13 +95,14 @@ public class f_partnership extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_f_partnership, container, false);
 
+        session = new Session(view.getContext());
         session_guardian = new Session_Guardian(view.getContext());
         list_name = new ArrayList<>();
 
         listView = view.findViewById(R.id.list_kid);
         assignGuardianEmail = view.findViewById(R.id.assign_guardian_email);
 
-        getKid(session_guardian.getIP() + "/v1/kid/admin/" + session_guardian.getGuardianId());
+        getKid(session.getIP() + "/v1/kid/admin/" + session_guardian.getGuardianId());
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -121,7 +124,7 @@ public class f_partnership extends Fragment {
                 boolean valid = isValid(guardianEmail);
 
                 if (valid) {
-                    pushToServer(guardianEmail, session_guardian.getIP() + "/v1/partnership/register");
+                    pushToServer(guardianEmail, session.getIP() + "/v1/partnership/register");
                 }
             }
         });

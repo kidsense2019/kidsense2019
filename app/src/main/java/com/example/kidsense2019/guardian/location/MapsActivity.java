@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kidsense2019.general.Session;
 import com.example.kidsense2019.general.connection.GetDataTask;
 import com.example.kidsense2019.guardian.Guardian_MainActivity;
 import com.example.kidsense2019.R;
@@ -28,6 +29,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -52,6 +54,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Geocoder geocoder;
     private List<Address> addresses;
     private Session_Guardian session_guardian;
+    private Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +126,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mInfo = (ImageView)findViewById(R.id.place_info);
 
+        session = new Session(MapsActivity.this);
         session_guardian = new Session_Guardian(MapsActivity.this);
     }
 
@@ -194,6 +198,24 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return false;
             }
         });
+
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Toast.makeText(MapsActivity.this, " Long-press to set the boundary here", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        // set boundary
+        mMap.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
+            @Override
+            public void onInfoWindowLongClick(Marker marker) {
+                getKid(session.getIP() + "/v1/kid/admin/" + session_guardian.getGuardianId(),
+                        "bound_infoWindow", session.getIP() + "/v1/sensorLocation/bound");
+            }
+
+        });
     }
 
     @Override
@@ -221,20 +243,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
                 break;
             case R.id.nav_refresh:
-                getKid(session_guardian.getIP() + "/v1/kid/user/" + session_guardian.getGuardianId(),
-                        "refresh", session_guardian.getIP() + "/v1/sensorLocation/request");
+                getKid(session.getIP() + "/v1/kid/user/" + session_guardian.getGuardianId(),
+                        "refresh", session.getIP() + "/v1/sensorLocation/request");
                 break;
             case R.id.nav_periodic_set:
-                getKid(session_guardian.getIP() + "/v1/kid/admin/" + session_guardian.getGuardianId(),
-                        "periodic set", session_guardian.getIP() + "/v1/sensorLocation/state");
+                getKid(session.getIP() + "/v1/kid/admin/" + session_guardian.getGuardianId(),
+                        "periodic set", session.getIP() + "/v1/sensorLocation/state");
                 break;
             case R.id.nav_periodic_unset:
-                getKid(session_guardian.getIP() + "/v1/kid/admin/" + session_guardian.getGuardianId(),
-                        "periodic unset", session_guardian.getIP() + "/v1/sensorLocation/state");
+                getKid(session.getIP() + "/v1/kid/admin/" + session_guardian.getGuardianId(),
+                        "periodic unset", session.getIP() + "/v1/sensorLocation/state");
                 break;
             case R.id.nav_bound_unset:
-                getKid(session_guardian.getIP() + "/v1/kid/admin/" + session_guardian.getGuardianId(),
-                        "bound unset", session_guardian.getIP() + "/v1/sensorLocation/state");
+                getKid(session.getIP() + "/v1/kid/admin/" + session_guardian.getGuardianId(),
+                        "bound unset", session.getIP() + "/v1/sensorLocation/state");
                 break;
             default:
                 break;
@@ -262,8 +284,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             arrayAdapter.add(kid.getString("nickName"));
                         }
 
-                        if (nav_message.equals("bound")) {
-                            kidListBound(arrayAdapter, urlPost); // post data
+                        if (nav_message.equals("bound_search")) {
+                            kidListBound(arrayAdapter, urlPost, latBound, lngBound); // post data
+                        }
+                        else if (nav_message.equals("bound_infoWindow")) {
+                            kidListBound(arrayAdapter, urlPost, lat, lng); // post data
                         }
                         else {
                             kidList(arrayAdapter, nav_message, urlPost); // post data
@@ -364,7 +389,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-    public void kidListBound(final ArrayAdapter<String> arrayAdapter, final String url) {
+    public void kidListBound(final ArrayAdapter<String> arrayAdapter, final String url, final double lat, final double lng) {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(MapsActivity.this);
         builderSingle.setIcon(R.drawable.ic_kid_blue);
         builderSingle.setTitle("Select One Name:-");
@@ -392,8 +417,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         try {
                             dataToSend.put("nickName", strName);
-                            dataToSend.put("latitude", latBound);
-                            dataToSend.put("longitude", lngBound);
+                            dataToSend.put("latitude", lat);
+                            dataToSend.put("longitude", lng);
                             dataToSend.put("guardianId", session_guardian.getGuardianId());
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -488,8 +513,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 //            String addressLine = address.getAddressLine(0);
 //            Toast.makeText(this, "The boundary has been set at : " + addressLine, Toast.LENGTH_LONG).show();
 
-            getKid(session_guardian.getIP() + "/v1/kid/admin/" + session_guardian.getGuardianId(),
-                    "bound", session_guardian.getIP() + "/v1/sensorLocation/bound");
+            getKid(session.getIP() + "/v1/kid/admin/" + session_guardian.getGuardianId(),
+                    "bound_search", session.getIP() + "/v1/sensorLocation/bound");
 
             latBound = address.getLatitude();
             lngBound = address.getLongitude();

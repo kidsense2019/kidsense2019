@@ -10,9 +10,8 @@ public class Session_Guardian {
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
     private Context ctx;
-    private String token, name, email, profilePicturePath;
+    private String name, email, profilePicturePath;
     private int guardianId;
-    private String ip = "http://203.189.123.200:3000";
 
     public Session_Guardian(Context ctx) {
         this.ctx = ctx;
@@ -27,15 +26,6 @@ public class Session_Guardian {
 
     public boolean loggedin() {
         return prefs.getBoolean("loggedInmodeGuardian",false);
-    }
-
-    public void saveIP() {
-        editor.putString("ip", ip);
-        editor.commit();
-    }
-
-    public String getIP() {
-        return prefs.getString("ip", ip);
     }
 
     public void saveProfilePicturePath(String profilePicturePath) {
@@ -69,16 +59,6 @@ public class Session_Guardian {
     public String getGuardianEmail() {
 
         return prefs.getString("email", email);
-    }
-
-    public void saveFCM(String token) {
-        this.token = token;
-        editor.putString("token", token);
-        editor.commit();
-    }
-
-    public String getFCM() {
-        return prefs.getString("token", token);
     }
 
     public void saveGuardianId(int guardianId) {

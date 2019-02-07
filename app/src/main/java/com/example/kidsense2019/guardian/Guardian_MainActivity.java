@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 
 import com.example.kidsense2019.R;
+import com.example.kidsense2019.general.Session;
 import com.example.kidsense2019.general.signIn;
 import com.example.kidsense2019.guardian.SignupRegister.f_kid_register;
 import com.example.kidsense2019.guardian.SignupRegister.f_partnership;
@@ -41,6 +42,7 @@ public class Guardian_MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Session_Guardian session_guardian;
+    private Session session;
     TextView headerName, headerEmail;
     ImageView profilePicture;
     String profilePicturePath;
@@ -71,8 +73,10 @@ public class Guardian_MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        session_guardian =new Session_Guardian(Guardian_MainActivity.this);
-        session_guardian.saveIP();
+        session = new Session(Guardian_MainActivity.this);
+        session_guardian = new Session_Guardian(Guardian_MainActivity.this);
+
+        session.saveIP();
 
         if(!session_guardian.loggedin()){
             logout();
@@ -111,7 +115,7 @@ public class Guardian_MainActivity extends AppCompatActivity
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        put.execute(session_guardian.getIP() + "/v1/guardian/" + session_guardian.getGuardianId() ,dataToSend);
+        put.execute(session.getIP() + "/v1/guardian/" + session_guardian.getGuardianId() ,dataToSend);
         put.getValue(new PutDataTask.setValue() {
             @Override
             public void update(String vData) {

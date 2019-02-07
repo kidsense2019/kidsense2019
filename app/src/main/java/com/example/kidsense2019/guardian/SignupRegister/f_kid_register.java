@@ -16,6 +16,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.kidsense2019.R;
+import com.example.kidsense2019.general.Session;
 import com.example.kidsense2019.guardian.Session_Guardian;
 import com.example.kidsense2019.general.connection.PostDataTask;
 import com.example.kidsense2019.guardian.f_home;
@@ -52,7 +53,8 @@ public class f_kid_register extends Fragment {
     private RadioButton genderMale;
     private int selectedGender;
     private int heightInt, weightInt;
-    Session_Guardian session_guardian;
+    private Session_Guardian session_guardian;
+    private Session session;
 
     public f_kid_register() {
         // Required empty public constructor
@@ -91,6 +93,7 @@ public class f_kid_register extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_f_kid_register, container, false);
 
+        session = new Session(view.getContext());
         session_guardian = new Session_Guardian(view.getContext());
 
         nickName = (EditText)view.findViewById(R.id.register_nickName);
@@ -165,7 +168,7 @@ public class f_kid_register extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                post.execute(session_guardian.getIP() + "/v1/kid/signUp/",dataToSend);
+                post.execute(session.getIP() + "/v1/kid/signUp/",dataToSend);
                 post.getValue(new PostDataTask.setValue() {
                     @Override
                     public void update(String vData) {

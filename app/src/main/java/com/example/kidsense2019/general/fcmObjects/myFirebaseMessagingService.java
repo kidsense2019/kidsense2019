@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
+import com.example.kidsense2019.general.Session;
 import com.example.kidsense2019.guardian.Guardian_MainActivity;
 import com.example.kidsense2019.guardian.Session_Guardian;
 import com.example.kidsense2019.guardian.location.MapsActivity;
@@ -22,15 +23,15 @@ import java.util.Map;
 
 public class myFirebaseMessagingService extends FirebaseMessagingService {
 
-    private Session_Guardian session_guardian;
+    private Session session;
 
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
         System.out.println("New Fb Token : " + s);
 
-        session_guardian = new Session_Guardian(this);
-        session_guardian.saveFCM(s);
+        session = new Session(this);
+        session.saveFCM(s);
 
     }
 

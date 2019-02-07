@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.kidsense2019.R;
+import com.example.kidsense2019.general.Session;
 import com.example.kidsense2019.general.connection.PostDataTask;
 import com.example.kidsense2019.guardian.Guardian_MainActivity;
 import com.example.kidsense2019.guardian.Session_Guardian;
@@ -43,7 +44,7 @@ public class f_device_register extends Fragment {
     private EditText MAC1, MAC2, MAC3, MAC4, MAC5, MAC6, DeviceType;
     private Button register;
     private Session_Kid session_kid;
-    private Session_Guardian session_guardian;
+    private Session session;
     private View view;
 
 
@@ -84,8 +85,8 @@ public class f_device_register extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_f_device_register, container, false);
 
+        session = new Session((view.getContext()));
         session_kid = new Session_Kid(view.getContext());
-        session_guardian = new Session_Guardian(view.getContext());
 
         MAC1 = (EditText)view.findViewById(R.id.MAC_1);
         MAC2 = (EditText)view.findViewById(R.id.MAC_2);
@@ -128,7 +129,7 @@ public class f_device_register extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                post.execute(session_guardian.getIP() + "/v1/device/register",dataToSend);
+                post.execute(session.getIP() + "/v1/device/register",dataToSend);
                 post.getValue(new PostDataTask.setValue() {
                     @Override
                     public void update(String vData) {
