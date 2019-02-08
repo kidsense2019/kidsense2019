@@ -42,25 +42,23 @@
     </LinearLayout>
 
 
-        <RelativeLayout
-            android:layout_width="37dp"
-            android:layout_height="37dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/white_background_t"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:layout_below="@+id/searchMap">
+    <RelativeLayout
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/white_background_t"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/searchMap">
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:scaleType="centerCrop"
-                android:id="@+id/place_info"
-                android:src="@drawable/ic_info"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"/>
-        </RelativeLayout>
-
-
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:scaleType="centerCrop"
+            android:id="@+id/place_info"
+            android:src="@drawable/ic_info"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
 
 </RelativeLayout>

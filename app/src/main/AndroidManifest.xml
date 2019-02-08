@@ -30,7 +30,7 @@
             android:theme="@style/AppTheme.NoActionBar" ></activity>
         <activity
             android:name=".general.signIn"
-            android:label="@string/title_activity_guardian__sign_in">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
