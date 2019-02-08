@@ -91,6 +91,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             e.printStackTrace();
         }
 
+        // to make sure that we need both lat and lng
+        if (lat == 0.0) {
+            lng = 0.0;
+        }
+        else if (lng == 0.0) {
+            lat = 0.0;
+        }
+
         System.out.println("lat : " + lat + " lng : " + lng);
 
         geocoder = new Geocoder(this, Locale.getDefault());
