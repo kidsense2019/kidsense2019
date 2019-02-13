@@ -149,6 +149,12 @@ public class f_heart_rate extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                f_home F_home = f_home.newInstance("param1", "param2");
+                android.support.v4.app.FragmentManager manager = getFragmentManager();
+                android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
+                transaction.replace(R.id.layout_for_fragment, F_home,
+                        F_home.getTag());
+                transaction.commit();
             }
         });
 
