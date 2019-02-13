@@ -27,6 +27,7 @@ import com.example.kidsense2019.guardian.SignupRegister.f_kid_register;
 import com.example.kidsense2019.guardian.SignupRegister.f_partnership;
 import com.example.kidsense2019.general.connection.PutDataTask;
 import com.example.kidsense2019.guardian.location.MapsActivity;
+import com.example.kidsense2019.guardian.sensor.f_heart_rate;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -273,12 +274,6 @@ public class Guardian_MainActivity extends AppCompatActivity
                     F_kid_register.getTag());
             transaction.commit();
 
-        } else if (id == R.id.nav_watch_location) {
-            Intent intent = new Intent(this, MapsActivity.class);
-            intent.putExtra("content", "nav_watch_location");
-            startActivity(intent);
-            finish();
-
         } else if (id == R.id.nav_partner) {
             setTitle("Partnership");
 
@@ -288,6 +283,22 @@ public class Guardian_MainActivity extends AppCompatActivity
             transaction.replace(R.id.layout_for_fragment, F_partnership,
                     F_partnership.getTag());
             transaction.commit();
+        } else if (id == R.id.nav_watch_location) {
+            Intent intent = new Intent(this, MapsActivity.class);
+            intent.putExtra("content", "nav_watch_location");
+            startActivity(intent);
+            finish();
+
+        } else if (id == R.id.nav_heart_rate) {
+            setTitle("Heart Rate");
+
+            f_heart_rate F_heart_rate = f_heart_rate.newInstance("param1", "param2");
+            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+            android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
+            transaction.replace(R.id.layout_for_fragment, F_heart_rate,
+                    F_heart_rate.getTag());
+            transaction.commit();
+
         } else if (id == R.id.signOut) {
             logout();
         }

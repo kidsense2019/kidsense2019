@@ -17,14 +17,19 @@
             android:title="Kid Register" />
 
         <item
+            android:id="@+id/nav_partner"
+            android:icon="@drawable/ic_partnership"
+            android:title="Assign Another Guardian" />
+
+        <item
             android:id="@+id/nav_watch_location"
             android:icon="@drawable/ic_location"
             android:title="Watch Location" />
 
         <item
-            android:id="@+id/nav_partner"
-            android:icon="@drawable/ic_partnership"
-            android:title="Assign Another Guardian" />
+            android:id="@+id/nav_heart_rate"
+            android:icon="@drawable/ic_heart_rate"
+            android:title="Heart Rate" />
 
     </group>
     <item android:title="Setting">
