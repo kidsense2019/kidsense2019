@@ -104,33 +104,35 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         geocoder = new Geocoder(this, Locale.getDefault());
         try {
             addresses = geocoder.getFromLocation(lat, lng, 1);
+
+            if (!addresses.isEmpty()) {
+                String address = addresses.get(0).getAddressLine(0);
+                String postalCode = addresses.get(0).getPostalCode();
+                String phone = addresses.get(0).getPhone();
+
+                String phoneSnippet = null;
+                if (phone == null) {
+                    phoneSnippet = "-"; }
+                else {
+                    phoneSnippet = phone; }
+
+                snippet = "Address : " + address + "\n"
+                        + "Postal Code : " + postalCode + "\n"
+                        + "Lat, Lng : " + lat + ", " + lng + "\n"
+                        + "Phone : " + phoneSnippet + "\n"
+                        + "When : " + stmp;
+            }
+            else {
+                errorMessage2("We can't find this location");
+            }
+
+            System.out.println("lat : " + lat);
+            System.out.println("lng : " + lng);
         } catch (IOException e) {
+            System.out.println("There is failure");
+            errorMessage2("Apparently, something went wrong with your internet connection");
             e.printStackTrace();
         }
-
-        if (!addresses.isEmpty()) {
-            String address = addresses.get(0).getAddressLine(0);
-            String postalCode = addresses.get(0).getPostalCode();
-            String phone = addresses.get(0).getPhone();
-
-            String phoneSnippet = null;
-            if (phone == null) {
-                phoneSnippet = "-"; }
-            else {
-                phoneSnippet = phone; }
-
-            snippet = "Address : " + address + "\n"
-                    + "Postal Code : " + postalCode + "\n"
-                    + "Lat, Lng : " + lat + ", " + lng + "\n"
-                    + "Phone : " + phoneSnippet + "\n"
-                    + "When : " + stmp;
-        }
-        else {
-            errorMessage2("We can't find this location");
-        }
-
-        System.out.println("lat : " + lat);
-        System.out.println("lng : " + lng);
 
         mInfo = (ImageView)findViewById(R.id.place_info);
 
